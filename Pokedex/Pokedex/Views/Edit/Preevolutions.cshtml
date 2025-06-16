@@ -21,7 +21,7 @@
             <div class="@item.PreevolutionPokemon.Name @(item.PreevolutionPokemon.IsComplete ? "" : "incomplete")">
                 @if (item.PreevolutionPokemon.IsComplete)
                 {
-                    <a href="@this.Url.Action("PokemonWithId", "Home", new { item.PreevolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_'), pokemonId = @item.PreevolutionPokemonId, generationId = item.GenerationId })">
+                    <a href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = item.PreevolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_'), pokemonId = @item.PreevolutionPokemonId, generationId = item.GenerationId })">
                         <img class="pokemonListPicture" title="@item.PreevolutionPokemon.Name.ToLower()" loading="lazy" src="@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.GridImageUrl, @item.PreevolutionPokemonId, ".png"))"/>
                     </a>
                 }
@@ -32,7 +32,7 @@
                 <div>
                     @if (item.PreevolutionPokemon.IsComplete)
                     {
-                        <a href="@this.Url.Action("PokemonWithId", "Home", new { item.PreevolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_'), pokemonId = @item.PreevolutionPokemonId, generationId = item.GenerationId })" class="pokemonName">@item.PreevolutionPokemon.Name</a>
+                        <a href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = item.PreevolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_'), pokemonId = @item.PreevolutionPokemonId, generationId = item.GenerationId })" class="pokemonName">@item.PreevolutionPokemon.Name</a>
                     }
                     else
                     {
