@@ -226,6 +226,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("Types", "Owner");
         }
 
+        /// <summary>
+        /// Adds an egg cycle.
+        /// </summary>
+        /// <returns>The view to add the egg cycle.</returns>
         [HttpGet]
         [Route("add_egg_cycle")]
         public IActionResult EggCycle()
@@ -233,6 +237,11 @@ namespace Pokedex.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Adds an egg cycle.
+        /// </summary>
+        /// <param name="eggCycle">The egg cycle being added.</param>
+        /// <returns>The view for the egg cycle admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_egg_cycle")]
@@ -248,6 +257,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("EggCycles", "Owner");
         }
 
+        /// <summary>
+        /// Adds an experience growth.
+        /// </summary>
+        /// <returns>The view to add the experience growth.</returns>
         [HttpGet]
         [Route("add_experience_growth")]
         public IActionResult ExperienceGrowth()
@@ -255,6 +268,11 @@ namespace Pokedex.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Adds an experience growth.
+        /// </summary>
+        /// <param name="experienceGrowth">The experience growth being added.</param>
+        /// <returns>The view for the experience growth admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_experience_growth")]
@@ -270,6 +288,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("ExperienceGrowths", "Owner");
         }
 
+        /// <summary>
+        /// Adds a gender ratio.
+        /// </summary>
+        /// <returns>The view to add the gender ratio.</returns>
         [HttpGet]
         [Route("add_gender_ratio")]
         public IActionResult GenderRatio()
@@ -277,6 +299,11 @@ namespace Pokedex.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Adds a gender ratio.
+        /// </summary>
+        /// <param name="genderRatio">The gender ratio being added.</param>
+        /// <returns>The view for the gender ratio admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_gender_ratio")]
@@ -292,6 +319,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("GenderRatios", "Owner");
         }
 
+        /// <summary>
+        /// Adds a special grouping.
+        /// </summary>
+        /// <returns>The view to add the special grouping.</returns>
         [HttpGet]
         [Route("add_special_grouping")]
         public IActionResult SpecialGrouping()
@@ -299,6 +330,11 @@ namespace Pokedex.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Adds a special grouping.
+        /// </summary>
+        /// <param name="specialGrouping">The special grouping being added.</param>
+        /// <returns>The view for the special grouping admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_special_grouping")]
@@ -314,6 +350,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("SpecialGroupings", "Owner");
         }
 
+        /// <summary>
+        /// Adds a regional dex.
+        /// </summary>
+        /// <returns>The view used to add a regional dex.</returns>
         [HttpGet]
         [Route("add_regional_dex")]
         public IActionResult RegionalDex()
@@ -326,6 +366,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds a regional dex.
+        /// </summary>
+        /// <param name="regionalDex">The regional dex being added.</param>
+        /// <returns>The view for the regional dex admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_regional_dex")]
@@ -346,6 +391,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("RegionalDexes", "Owner");
         }
 
+        /// <summary>
+        /// Adds an egg group.
+        /// </summary>
+        /// <returns>The view to add the egg group.</returns>
         [HttpGet]
         [Route("add_egg_group")]
         public IActionResult EggGroup()
@@ -353,6 +402,11 @@ namespace Pokedex.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Adds an egg group.
+        /// </summary>
+        /// <param name="eggGroup">The egg group being added.</param>
+        /// <returns>The view for the egg group admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_egg_group")]
@@ -368,6 +422,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("EggGroups", "Owner");
         }
 
+        /// <summary>
+        /// Adds a classification.
+        /// </summary>
+        /// <returns>The view used to add a classification.</returns>
         [HttpGet]
         [Route("add_classification")]
         public IActionResult Classification()
@@ -375,6 +433,11 @@ namespace Pokedex.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Adds a classification.
+        /// </summary>
+        /// <param name="classification">The classification that is added.</param>
+        /// <returns>The view for the classification admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_classification")]
@@ -411,6 +474,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("Classifications", "Owner");
         }
 
+        /// <summary>
+        /// Adds a nature.
+        /// </summary>
+        /// <returns>The view used to add the nature.</returns>
         [HttpGet]
         [Route("add_nature")]
         public IActionResult Nature()
@@ -423,6 +490,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds a nature.
+        /// </summary>
+        /// <param name="nature">The nature being added.</param>
+        /// <returns>The view for the nature admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_nature")]
@@ -474,6 +546,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("Stats", "Owner");
         }
 
+        /// <summary>
+        /// Adds a pokeball.
+        /// </summary>
+        /// <returns>The view to add the pokeball.</returns>
         [HttpGet]
         [Route("add_pokeball")]
         public IActionResult Pokeball()
@@ -486,6 +562,13 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds a pokeball.
+        /// </summary>
+        /// <param name="pokeball">The pokeball being added.</param>
+        /// <param name="officialUpload">The file used for the official artwork. Can be null if officialUrlUpload is not null.</param>
+        /// <param name="officialUrlUpload">The file url used for the official artwork. Can be null if officialUpliad is not null.</param>
+        /// <returns>The view for the pokeball admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_pokeball")]
@@ -508,6 +591,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("Pokeballs", "Owner");
         }
 
+        /// <summary>
+        /// Adds a mark.
+        /// </summary>
+        /// <returns>The view to add the mark.</returns>
         [HttpGet]
         [Route("add_mark")]
         public IActionResult Mark()
@@ -515,6 +602,13 @@ namespace Pokedex.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Adds a mark.
+        /// </summary>
+        /// <param name="mark">The mark being added.</param>
+        /// <param name="officialUpload">The file used for the official artwork. Can be null if officialUrlUpload is not null.</param>
+        /// <param name="officialUrlUpload">The file url used for the official artwork. Can be null if officialUpliad is not null.</param>
+        /// <returns>The view for the mark admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_mark")]
@@ -532,6 +626,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("Marks", "Owner");
         }
 
+        /// <summary>
+        /// Adds an Alcremie sweet.
+        /// </summary>
+        /// <returns>The view to add the Alcremie sweet.</returns>
         [HttpGet]
         [Route("add_sweet")]
         public IActionResult Sweet()
@@ -539,6 +637,13 @@ namespace Pokedex.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Adds an Alcremie sweet.
+        /// </summary>
+        /// <param name="sweet">The Alcremie sweet being added.</param>
+        /// <param name="officialUpload">The file used for the official artwork. Can be null if officialUrlUpload is not null.</param>
+        /// <param name="officialUrlUpload">The file url used for the official artwork. Can be null if officialUpliad is not null.</param>
+        /// <returns>The view for the Alcremie sweet admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_sweet")]
@@ -556,6 +661,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("Sweets", "Owner");
         }
 
+        /// <summary>
+        /// Adds a shiny hunting method.
+        /// </summary>
+        /// <returns>The view to add the shiny hunting method.</returns>
         [HttpGet]
         [Route("add_hunting_method")]
         public IActionResult HuntingMethod()
@@ -563,6 +672,11 @@ namespace Pokedex.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Adds a shiny hunting method.
+        /// </summary>
+        /// <param name="huntingMethod">The shiny hunting method being added.</param>
+        /// <returns>The view for the shiny hunting method admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_hunting_method")]
@@ -578,6 +692,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("HuntingMethods", "Owner");
         }
 
+        /// <summary>
+        /// Adds a form.
+        /// </summary>
+        /// <returns>The view to add the form.</returns>
         [HttpGet]
         [Route("add_form")]
         public IActionResult Form()
@@ -590,6 +708,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds a form.
+        /// </summary>
+        /// <param name="form">The form being added.</param>
+        /// <returns>The view for the form admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_form")]
@@ -610,6 +733,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("Forms", "Owner");
         }
 
+        /// <summary>
+        /// Adds an evolution method.
+        /// </summary>
+        /// <returns>The view used to add the evolution method.</returns>
         [HttpGet]
         [Route("add_evolution_method")]
         public IActionResult EvolutionMethod()
@@ -617,6 +744,11 @@ namespace Pokedex.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Adds an evolution method.
+        /// </summary>
+        /// <param name="evolutionMethod">The evolution method being added.</param>
+        /// <returns>The view for the evolution method admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_evolution_method")]
@@ -632,6 +764,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("EvolutionMethods", "Owner");
         }
 
+        /// <summary>
+        /// Adds a capture rate.
+        /// </summary>
+        /// <returns>The view to add the capture rate.</returns>
         [HttpGet]
         [Route("add_capture_rate")]
         public IActionResult CaptureRate()
@@ -639,6 +775,11 @@ namespace Pokedex.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Adds a capture rate.
+        /// </summary>
+        /// <param name="captureRate">The capture rate being added.</param>
+        /// <returns>The view for the capture rate admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_capture_rate")]
@@ -654,6 +795,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("CaptureRates", "Owner");
         }
 
+        /// <summary>
+        /// Adds an ability.
+        /// </summary>
+        /// <returns>The view to add the ability.</returns>
         [HttpGet]
         [Route("add_ability")]
         public IActionResult Ability()
@@ -665,6 +810,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds an ability.
+        /// </summary>
+        /// <param name="ability">The ability being added.</param>
+        /// <returns>The view for the ability admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_ability")]
@@ -680,6 +830,10 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("Abilities", "Owner");
         }
 
+        /// <summary>
+        /// Adds a base happiness.
+        /// </summary>
+        /// <returns>The view to add the base happiness.</returns>
         [HttpGet]
         [Route("add_base_happiness")]
         public IActionResult BaseHappiness()
@@ -687,6 +841,11 @@ namespace Pokedex.Controllers
             return this.View();
         }
 
+        /// <summary>
+        /// Adds a base happiness.
+        /// </summary>
+        /// <param name="baseHappiness">The base happiness being added.</param>
+        /// <returns>The view for the base happiness admin page.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_base_happiness")]
@@ -702,6 +861,12 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("BaseHappinesses", "Owner");
         }
 
+        /// <summary>
+        /// Adds a capture rate for a pokemon starting in a specific generation.
+        /// </summary>
+        /// <param name="pokemonId">The id of the pokemon being given a capture rate.</param>
+        /// <param name="generationId">The generation this capture rate started being used in.</param>
+        /// <returns>The view to add a capture rate for a pokemon starting in a specific generation.</returns>
         [HttpGet]
         [Route("add_pokemon_capture_rate/{pokemonId:int}/{generationId:int}")]
         public IActionResult CaptureRates(int pokemonId, int generationId)
@@ -716,6 +881,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds a capture rate for a pokemon starting in a specific generation.
+        /// </summary>
+        /// <param name="pokemonCaptureRate">The pokemon capture rate being added.</param>
+        /// <returns>The view to add an egg group to a pokemon if the pokemon is not complete. The view for the pokemon admin page if the pokemon is marked as complete.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_pokemon_capture_rate/{pokemonId:int}/{generationId:int}")]
@@ -745,6 +915,12 @@ namespace Pokedex.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds a base happiness to a pokemon given a specific generation.
+        /// </summary>
+        /// <param name="pokemonId">The id of the pokemon being given a base happiness.</param>
+        /// <param name="generationId">The generation this base happiness started being used in.</param>
+        /// <returns>The view to add a base happiness for a pokemon starting in a specific generation.</returns>
         [HttpGet]
         [Route("add_pokemon_base_happiness/{pokemonId:int}/{generationId:int}")]
         public IActionResult BaseHappinesses(int pokemonId, int generationId)
@@ -759,6 +935,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds a base happiness to a pokemon given a specific generation.
+        /// </summary>
+        /// <param name="pokemonBaseHappiness">The pokemon base happiness being added.</param>
+        /// <returns>The view to add a capture rate to a pokemon if the pokemon is not complete. The view for the pokemon admin page if the pokemon is marked as complete.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_pokemon_base_happiness/{pokemonId:int}/{generationId:int}")]
@@ -788,6 +969,10 @@ namespace Pokedex.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds a pokemon.
+        /// </summary>
+        /// <returns>The view used to create the pokemon.</returns>
         [HttpGet]
         [Route("add_pokemon")]
         public IActionResult Pokemon()
@@ -841,6 +1026,13 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds a pokemon.
+        /// </summary>
+        /// <param name="newPokemon">The pokemon being added.</param>
+        /// <param name="officialUpload">The file used for the official artwork. Can be null if officialUrlUpload is not null.</param>
+        /// <param name="officialUrlUpload">The file url used for the official artwork. Can be null if officialUpliad is not null.</param>
+        /// <returns>The view used to add typings to a pokemon.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_pokemon")]
@@ -959,6 +1151,11 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("Typing", "Add", new { pokemonId = newPokemon.Id, generationId = game.GenerationId });
         }
 
+        /// <summary>
+        /// Adds an alternate form to a pokemon.
+        /// </summary>
+        /// <param name="pokemonId">The id of the pokemon being given an alternate form.</param>
+        /// <returns>The view to add the alternate form.</returns>
         [HttpGet]
         [Route("add_alternate_form/{pokemonId:int}")]
         public IActionResult AltForm(int pokemonId)
@@ -979,6 +1176,13 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds an alternate form to a pokemon.
+        /// </summary>
+        /// <param name="pokemon">The alternate form being created.</param>
+        /// <param name="officialUpload">The file used for the official artwork. Can be null if officialUrlUpload is not null.</param>
+        /// <param name="officialUrlUpload">The file url used for the official artwork. Can be null if officialUpliad is not null.</param>
+        /// <returns>The view to add a typing to a pokemon.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_alternate_form/{pokemonId:int}")]
@@ -1066,6 +1270,12 @@ namespace Pokedex.Controllers
             return this.RedirectToAction("Typing", "Add", new { pokemonId = alternatePokemon.Id, generationId = alternatePokemonEggGroups.GenerationId });
         }
 
+        /// <summary>
+        /// Adds a typing to a pokemon starting in a specific generation.
+        /// </summary>
+        /// <param name="pokemonId">The id of the pokemon being given a typing.</param>
+        /// <param name="generationId">The generation this typing started being used in.</param>
+        /// <returns>The view to add the typing to the pokemon.</returns>
         [HttpGet]
         [Route("add_typing/{pokemonId:int}/{generationId:int}")]
         public IActionResult Typing(int pokemonId, int generationId)
@@ -1081,6 +1291,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds a typing to a pokemon starting in a specific generation.
+        /// </summary>
+        /// <param name="typing">The pokemon typing being added.</param>
+        /// <returns>The view to add abilities to a pokemon if the pokemon is not complete. The view for the pokemon admin page if the pokemon is marked as complete.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_typing/{pokemonId:int}/{generationId:int}")]
@@ -1111,6 +1326,12 @@ namespace Pokedex.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds abilities to a pokemon starting in a specific generation.
+        /// </summary>
+        /// <param name="pokemonId">The id of the pokemon being given the abilities.</param>
+        /// <param name="generationId">The generation these abilities started being used in.</param>
+        /// <returns>The view to add the abilities to the pokemon.</returns>
         [HttpGet]
         [Route("add_abilities/{pokemonId:int}/{generationId:int}")]
         public IActionResult Abilities(int pokemonId, int generationId)
@@ -1126,6 +1347,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds abilities to a pokemon starting in a specific generation.
+        /// </summary>
+        /// <param name="abilities">The pokemon abilities being added.</param>
+        /// <returns>The view to add a base happiness to a pokemon if the pokemon is not complete and not an alternate form. The view to add base stats to a pokemon if the pokemon is not complete and is an alternate form. The view for the pokemon admin page if the pokemon is marked as complete.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_abilities/{pokemonId:int}/{generationId:int}")]
@@ -1160,6 +1386,12 @@ namespace Pokedex.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds egg groups to a pokemon starting in a specific generation.
+        /// </summary>
+        /// <param name="pokemonId">The id of the pokemon being given the egg groups.</param>
+        /// <param name="generationId">The generation these egg groups started being used in.</param>
+        /// <returns>The view to add the egg groups to the pokemon.</returns>
         [HttpGet]
         [Route("add_egg_groups/{pokemonId:int}/{generationId:int}")]
         public IActionResult EggGroups(int pokemonId, int generationId)
@@ -1175,6 +1407,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds egg groups to a pokemon starting in a specific generation.
+        /// </summary>
+        /// <param name="eggGroups">The pokemon egg groups being added.</param>
+        /// <returns>The view to add base stats to a pokemon if the pokemon is not complete. The view for the pokemon admin page if the pokemon is marked as complete.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_egg_groups/{pokemonId:int}/{generationId:int}")]
@@ -1205,6 +1442,12 @@ namespace Pokedex.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds base stats to a pokemon starting in a specific generation.
+        /// </summary>
+        /// <param name="pokemonId">The id of the pokemon being given the base stats.</param>
+        /// <param name="generationId">The generation these base stats started being used in.</param>
+        /// <returns>The view to add the base stats to the pokemon.</returns>
         [HttpGet]
         [Route("add_base_stats/{pokemonId:int}/{generationId:int}")]
         public IActionResult BaseStats(int pokemonId, int generationId)
@@ -1219,6 +1462,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds base stats to a pokemon starting in a specific generation.
+        /// </summary>
+        /// <param name="baseStat">The pokemon base stats being added.</param>
+        /// <returns>The view to add EV yields to a pokemon if the pokemon is not complete. The view for the pokemon admin page if the pokemon is marked as complete.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_base_stats/{pokemonId:int}/{generationId:int}")]
@@ -1248,6 +1496,12 @@ namespace Pokedex.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds EV yields to a pokemon starting in a specific generation.
+        /// </summary>
+        /// <param name="pokemonId">The id of the pokemon being given the EV yields.</param>
+        /// <param name="generationId">The generation these EV yields started being used in.</param>
+        /// <returns>The view to add the EV yields to the pokemon.</returns>
         [HttpGet]
         [Route("add_ev_yields/{pokemonId:int}/{generationId:int}")]
         public IActionResult EVYields(int pokemonId, int generationId)
@@ -1262,6 +1516,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Adds EV yields to a pokemon starting in a specific generation.
+        /// </summary>
+        /// <param name="evYield">The pokemon EV yields being added.</param>
+        /// <returns>The view to add an evolution to a pokemon if the pokemon is not complete. The view for the pokemon admin page if the pokemon is marked as complete.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("add_ev_yields/{pokemonId:int}/{generationId:int}")]

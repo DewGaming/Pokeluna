@@ -2630,9 +2630,6 @@ namespace Pokedex.Controllers
             {
                 int abilityId = pokemonId switch
                 {
-                    // Regular Ogerpon's internal id.
-                    1768 => 314,
-
                     // Wellspring Mask Ogerpon's internal id.
                     1879 => 319,
 
@@ -2641,6 +2638,9 @@ namespace Pokedex.Controllers
 
                     // Cornerstone Mask Ogerpon's internal id.
                     1881 => 321,
+
+                    // Default value (Used for regular Ogerpon).
+                    _ => 314,
                 };
                 Ability teraAbility = this.dataService.GetObjectByPropertyValue<Ability>("Id", abilityId);
 

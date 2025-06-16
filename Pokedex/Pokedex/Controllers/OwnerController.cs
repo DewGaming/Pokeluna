@@ -54,9 +54,9 @@ namespace Pokedex.Controllers
         }
 
         /// <summary>
-        /// Opens the page to view the stats of all pages.
+        /// Opens the page to view the pokemon stats of all pages.
         /// </summary>
-        /// <returns>The page stat page.</returns>
+        /// <returns>The pokemon page stat page.</returns>
         [Route("pokemon_page_stats")]
         public IActionResult PokemonPageStats()
         {
@@ -87,6 +87,10 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Opens the page to managing Generations in the database.
+        /// </summary>
+        /// <returns>The owner Generations page.</returns>
         [Route("generations")]
         public IActionResult Generations()
         {
@@ -99,6 +103,10 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Opens the page to managing Games in the database.
+        /// </summary>
+        /// <returns>The owner Games page.</returns>
         [Route("games")]
         public IActionResult Games()
         {
@@ -112,7 +120,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
-        [Route("type")]
+        /// <summary>
+        /// Opens the page to managing Types in the database.
+        /// </summary>
+        /// <returns>The owner Types page.</returns>
+        [Route("types")]
         public IActionResult Types()
         {
             TypeViewModel model = new TypeViewModel()
@@ -124,7 +136,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
-        [Route("egg_cycle")]
+        /// <summary>
+        /// Opens the page to managing Egg Cycles in the database.
+        /// </summary>
+        /// <returns>The owner Egg Cycles page.</returns>
+        [Route("egg_cycles")]
         public IActionResult EggCycles()
         {
             EggCycleViewModel model = new EggCycleViewModel()
@@ -136,7 +152,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
-        [Route("experience_growth")]
+        /// <summary>
+        /// Opens the page to managing Experience Growths in the database.
+        /// </summary>
+        /// <returns>The owner Experience Growths page.</returns>
+        [Route("experience_growths")]
         public IActionResult ExperienceGrowths()
         {
             ExperienceGrowthViewModel model = new ExperienceGrowthViewModel()
@@ -148,7 +168,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
-        [Route("gender_ratio")]
+        /// <summary>
+        /// Opens the page to managing Gender Ratios in the database.
+        /// </summary>
+        /// <returns>The owner Gender Ratios page.</returns>
+        [Route("gender_ratios")]
         public IActionResult GenderRatios()
         {
             GenderRatiosViewModel model = new GenderRatiosViewModel()
@@ -160,6 +184,10 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Opens the page to managing Form Items in the database.
+        /// </summary>
+        /// <returns>The owner Form Items page.</returns>
         [Route("form_items")]
         public IActionResult FormItems()
         {
@@ -168,6 +196,10 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Opens the page to managing Form Groups in the database.
+        /// </summary>
+        /// <returns>The owner Form Groups page.</returns>
         [Route("form_groups")]
         public IActionResult FormGroups()
         {
@@ -181,7 +213,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
-        [Route("ability")]
+        /// <summary>
+        /// Opens the page to managing Abilities in the database.
+        /// </summary>
+        /// <returns>The owner Abilities page.</returns>
+        [Route("abilities")]
         public IActionResult Abilities()
         {
             AbilityViewModel model = new AbilityViewModel()
@@ -193,7 +229,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
-        [Route("form")]
+        /// <summary>
+        /// Opens the page to managing Forms in the database.
+        /// </summary>
+        /// <returns>The owner Forms page.</returns>
+        [Route("forms")]
         public IActionResult Forms()
         {
             FormViewModel model = new FormViewModel()
@@ -205,7 +245,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
-        [Route("egg_group")]
+        /// <summary>
+        /// Opens the page to managing Egg Groups in the database.
+        /// </summary>
+        /// <returns>The owner Egg Groups page.</returns>
+        [Route("egg_groups")]
         public IActionResult EggGroups()
         {
             EggGroupViewModel model = new EggGroupViewModel()
@@ -217,6 +261,10 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Opens the page to managing Evolution Methods in the database.
+        /// </summary>
+        /// <returns>The owner Evolution Methods page.</returns>
         [Route("evolution_methods")]
         public IActionResult EvolutionMethods()
         {
@@ -229,6 +277,10 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Opens the page to managing Capture Rates in the database.
+        /// </summary>
+        /// <returns>The owner Capture Rates page.</returns>
         [Route("capture_rates")]
         public IActionResult CaptureRates()
         {
@@ -241,6 +293,10 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        /// <summary>
+        /// Opens the page to managing Base Happinesses in the database.
+        /// </summary>
+        /// <returns>The owner Base Happinesses page.</returns>
         [Route("base_happinesses")]
         public IActionResult BaseHappinesses()
         {
@@ -253,7 +309,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
-        [Route("classification")]
+        /// <summary>
+        /// Opens the page to managing Classifications in the database.
+        /// </summary>
+        /// <returns>The owner Classifications page.</returns>
+        [Route("classifications")]
         public IActionResult Classifications()
         {
             ClassificationViewModel model = new ClassificationViewModel()
@@ -265,7 +325,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
-        [Route("nature")]
+        /// <summary>
+        /// Opens the page to managing Natures in the database.
+        /// </summary>
+        /// <returns>The owner Natures page.</returns>
+        [Route("natures")]
         public IActionResult Natures()
         {
             List<Nature> model = this.dataService.GetObjects<Nature>("Name", "RaisedStat, LoweredStat");
@@ -273,7 +337,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
-        [Route("stat")]
+        /// <summary>
+        /// Opens the page to managing Stats in the database.
+        /// </summary>
+        /// <returns>The owner Stats page.</returns>
+        [Route("stats")]
         public IActionResult Stats()
         {
             List<Stat> model = this.dataService.GetObjects<Stat>("Name");
@@ -281,7 +349,11 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
-        [Route("mark")]
+        /// <summary>
+        /// Opens the page to managing Marks in the database.
+        /// </summary>
+        /// <returns>The owner Marks page.</returns>
+        [Route("marks")]
         public IActionResult Marks()
         {
             List<Mark> model = this.dataService.GetObjects<Mark>("GenerationId, Name");
@@ -293,7 +365,7 @@ namespace Pokedex.Controllers
         /// The owner's page for managing Sweets in the database.
         /// </summary>
         /// <returns>The owner Sweets page.</returns>
-        [Route("sweet")]
+        [Route("sweets")]
         public IActionResult Sweets()
         {
             List<Sweet> model = this.dataService.GetObjects<Sweet>("Name");
