@@ -66,7 +66,7 @@
         }
         <span class="adminMenuTitle">Edit Pokémon</span>
         <li><a class="dropdown-item" href="@(this.Url.Action("Pokemon", "Edit", new { id = Model.Pokemon.Id }))">Edit Pokémon</a></li>
-        @if (Model.Pokemon.Name.IndexOf(" (") > -1)
+        @if (Model.Pokemon.IsAltForm)
         {
             <li><a class="dropdown-item" href="@(this.Url.Action("AltFormsForm", "Edit", new { pokemonId = Model.Pokemon.Id }))">Edit Form</a></li>
         }
@@ -98,7 +98,7 @@
         {
             <li><a class="dropdown-item" href="@(this.Url.Action("EVYields", "Edit", new { pokemonId = Model.Pokemon.Id, generationId = Model.GenerationId }))">Edit EV Yields</a></li>
         }
-        @if (Model.Pokemon.Name.IndexOf(" (") < 0 && Model.DropdownViewModel.AllPokemon.AllEggGroups.Exists(x => x.PokemonId == Model.Pokemon.Id))
+        @if (!Model.Pokemon.IsAltForm && Model.DropdownViewModel.AllPokemon.AllEggGroups.Exists(x => x.PokemonId == Model.Pokemon.Id))
         {
             <hr class="adminOptionSeparator">
             <span class="adminMenuTitle">Add Relations</span>
@@ -107,11 +107,11 @@
         {
             <li><a class="dropdown-item" href="@(this.Url.Action("Evolution", "Add", new { pokemonId = Model.Pokemon.Id, generationId = Model.GenerationId }))">Add Pre-Evolution</a></li>
         }
-        @if (Model.Pokemon.Name.IndexOf(" (") < 0 && Model.DropdownViewModel.AllPokemon.AllEggGroups.Exists(x => x.PokemonId == Model.Pokemon.Id))
+        @if (!Model.Pokemon.IsAltForm && Model.DropdownViewModel.AllPokemon.AllEggGroups.Exists(x => x.PokemonId == Model.Pokemon.Id))
         {
             <li><a class="dropdown-item" href="@(this.Url.Action("AltForm", "Add", new { pokemonId = Model.Pokemon.Id }))">Add Alternate Form</a></li>
         }
-        @if (Model.DropdownViewModel.AllPokemon.AllEvolutions.Exists(x => x.EvolutionPokemonId == Model.Pokemon.Id && x.GenerationId == Model.GenerationId) || (Model.DropdownViewModel.AllPokemon.AllAltForms.Exists(x => x.OriginalPokemonId == Model.Pokemon.Id) && Model.Pokemon.Name.IndexOf(" (") < 0))
+        @if (Model.DropdownViewModel.AllPokemon.AllEvolutions.Exists(x => x.EvolutionPokemonId == Model.Pokemon.Id && x.GenerationId == Model.GenerationId) || (Model.DropdownViewModel.AllPokemon.AllAltForms.Exists(x => x.OriginalPokemonId == Model.Pokemon.Id) && !Model.Pokemon.IsAltForm))
         {
             <hr class="adminOptionSeparator">
             <span class="adminMenuTitle">Edit Relations</span>
@@ -120,7 +120,7 @@
         {
             <li><a class="dropdown-item" href="@(this.Url.Action("Preevolutions", "Edit", new { pokemonId = Model.Pokemon.Id, generationId = Model.GenerationId }))">Edit Pre-Evolutions</a></li>
         }
-        @if (Model.DropdownViewModel.AllPokemon.AllAltForms.Exists(x => x.OriginalPokemonId == Model.Pokemon.Id) && Model.Pokemon.Name.IndexOf(" (") < 0)
+        @if (Model.DropdownViewModel.AllPokemon.AllAltForms.Exists(x => x.OriginalPokemonId == Model.Pokemon.Id) && !Model.Pokemon.IsAltForm)
         {
             <li><a class="dropdown-item" href="@(this.Url.Action("AltForms", "Edit", new { pokemonId = Model.Pokemon.Id }))">Edit Alternate Forms</a></li>
         }
