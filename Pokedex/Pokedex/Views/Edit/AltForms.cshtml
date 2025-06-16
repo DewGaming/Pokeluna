@@ -26,7 +26,7 @@
             <div class="@item.Name @(item.IsComplete ? "" : "incomplete")">
                 @if (item.IsComplete)
                 {
-                    <a href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = @item.Name.Substring(0, item.Name.LastIndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = @item.Id, generationId = Model.GenerationId })">
+                    <a href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = @item.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = @item.Id, generationId = Model.GenerationId })">
                         <img class="pokemonListPicture" title="@item.Name" loading="lazy" src="@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.GridImageUrl, @item.Id, ".png"))"/>
                     </a>
                 }

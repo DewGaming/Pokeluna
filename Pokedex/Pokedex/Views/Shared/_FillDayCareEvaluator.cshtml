@@ -1,18 +1,9 @@
 @model Pokedex.Models.EggGroupEvaluatorViewModel;
 
 <div class="shadowed dayCarePokemon">
-    @if (Model.AllPokemon.Where(x => x.IsAltForm).Any(x => x.Id == @Model.SearchedPokemon.Id))
-    {
-        <a href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = @Model.SearchedPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = @Model.SearchedPokemon.Id, generationId = Model.GenerationId } )">
-            <img loading="lazy" class="pokemonListPicture eggGroupImage" src="@string.Concat(Model.AppConfig.WebUrl, Model.AppConfig.OfficialPokemonImageUrl, Model.SearchedPokemon.Id, ".png")" title="@Model.SearchedPokemon.Name">
-        </a>
-    }
-    else
-    {
-        <a href="@this.Url.Action("Pokemon", "Home", new { name = @Model.SearchedPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower() } )">
-            <img loading="lazy" class="pokemonListPicture eggGroupImage" src="@string.Concat(Model.AppConfig.WebUrl, Model.AppConfig.OfficialPokemonImageUrl, Model.SearchedPokemon.Id, ".png")" title="@Model.SearchedPokemon.Name">
-        </a>
-    }
+    <a href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = @Model.SearchedPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = @Model.SearchedPokemon.Id, generationId = Model.GenerationId } )">
+        <img loading="lazy" class="pokemonListPicture eggGroupImage" src="@string.Concat(Model.AppConfig.WebUrl, Model.AppConfig.OfficialPokemonImageUrl, Model.SearchedPokemon.Id, ".png")" title="@Model.SearchedPokemon.Name">
+    </a>
     <div class="eggGroups">
         @foreach (var e in Model.PokemonEggGroups)
         {

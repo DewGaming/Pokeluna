@@ -1067,28 +1067,12 @@ Description: @item.Abilities.OrderByDescending(x => x.GenerationId).First(x => x
                                 {
                                     <tr>
                                         <th>
-                                            @if (@preEvolution.PreevolutionPokemon.Name.Contains(" ("))
-                                            {
-                                                <a class="evolutionImage" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = preEvolution.PreevolutionPokemon.Name.Substring(0, preEvolution.PreevolutionPokemon.Name.IndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = preEvolution.PreevolutionPokemonId, generationId = @g })">
-                                                    <img class="lightshadowed" loading="lazy" title="@preEvolution.PreevolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, @preEvolution.PreevolutionPokemon.Id, ".png"))" />
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a class="evolutionImage" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = preEvolution.PreevolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = preEvolution.PreevolutionPokemonId, generationId = @g })">
-                                                    <img class="lightshadowed" loading="lazy" title="@preEvolution.PreevolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, @preEvolution.PreevolutionPokemon.Id, ".png"))" />
-                                                </a>
-                                            }
+                                            <a class="evolutionImage" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = preEvolution.PreevolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = preEvolution.PreevolutionPokemonId, generationId = @g })">
+                                                <img class="lightshadowed" loading="lazy" title="@preEvolution.PreevolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, @preEvolution.PreevolutionPokemon.Id, ".png"))" />
+                                            </a>
                                         </th>
                                         <td>
-                                            @if (@preEvolution.PreevolutionPokemon.Name.Contains(" ("))
-                                            {
-                                                <a class="evolutionLink" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = preEvolution.PreevolutionPokemon.Name.Substring(0, preEvolution.PreevolutionPokemon.Name.IndexOf(" (")).Substring(0, preEvolution.PreevolutionPokemon.Name.IndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = preEvolution.PreevolutionPokemonId, generationId = @g })">@preEvolution.PreevolutionPokemon.Name - @preEvolution.EvolutionMethod.Name</a>
-                                            }
-                                            else
-                                            {
-                                                <a class="evolutionLink" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = preEvolution.PreevolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = preEvolution.PreevolutionPokemonId, generationId = @g })">@preEvolution.PreevolutionPokemon.Name - @preEvolution.EvolutionMethod.Name</a>
-                                            }
+                                            <a class="evolutionLink" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = preEvolution.PreevolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = preEvolution.PreevolutionPokemonId, generationId = @g })">@preEvolution.PreevolutionPokemon.Name - @preEvolution.EvolutionMethod.Name</a>
                                             @if (preEvolution.EvolutionDetails != null)
                                             {
                                                 <p>@preEvolution.EvolutionDetails</p>
@@ -1125,28 +1109,12 @@ Description: @item.Abilities.OrderByDescending(x => x.GenerationId).First(x => x
                                 {
                                     <tr>
                                         <th>
-                                            @if (@evolution.EvolutionPokemon.Name.Contains(" ("))
-                                            {
-                                                <a class="evolutionImage"  href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = evolution.EvolutionPokemon.Name.Substring(0, evolution.EvolutionPokemon.Name.IndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = evolution.EvolutionPokemonId, generationId = @g })">
-                                                    <img class="lightshadowed" loading="lazy" title="@evolution.EvolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, @evolution.EvolutionPokemon.Id, ".png"))" />
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a class="evolutionImage"  href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = evolution.EvolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = evolution.EvolutionPokemonId, generationId = @g })">
-                                                    <img class="lightshadowed" loading="lazy" title="@evolution.EvolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, @evolution.EvolutionPokemon.Id, ".png"))" />
-                                                </a>
-                                            }
+                                            <a class="evolutionImage"  href="@this.Url.Action("PokemonWithOnlyId", "Home", new { pokemonId = evolution.EvolutionPokemonId, generationId = @g })">
+                                                <img class="lightshadowed" loading="lazy" title="@evolution.EvolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, @evolution.EvolutionPokemon.Id, ".png"))" />
+                                            </a>
                                         </th>
                                         <td>
-                                            @if (@evolution.EvolutionPokemon.Name.Contains(" ("))
-                                            {
-                                                <a class="evolutionLink" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = evolution.EvolutionPokemon.Name.Substring(0, evolution.EvolutionPokemon.Name.IndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = evolution.EvolutionPokemonId, generationId = @g })">@evolution.EvolutionPokemon.Name - @evolution.EvolutionMethod.Name</a>
-                                            }
-                                            else
-                                            {
-                                                <a class="evolutionLink" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = evolution.EvolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = evolution.EvolutionPokemonId, generationId = @g })">@evolution.EvolutionPokemon.Name - @evolution.EvolutionMethod.Name</a>
-                                            }
+                                            <a class="evolutionLink" href="@this.Url.Action("PokemonWithOnlyId", "Home", new { pokemonId = evolution.EvolutionPokemonId, generationId = @g })">@evolution.EvolutionPokemon.Name - @evolution.EvolutionMethod.Name</a>
                                             @if (evolution.EvolutionDetails != null)
                                             {
                                                 <p>@evolution.EvolutionDetails</p>
@@ -1163,28 +1131,12 @@ Description: @item.Abilities.OrderByDescending(x => x.GenerationId).First(x => x
                                 {
                                     <tr>
                                         <th>
-                                            @if (@evolutionList[i].EvolutionPokemon.Name.Contains(" ("))
-                                            {
-                                                <a class="evolutionImage"  href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = evolutionList[i].EvolutionPokemon.Name.Substring(0, evolutionList[i].EvolutionPokemon.Name.IndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = evolutionList[i].EvolutionPokemonId, generationId = @g })">
-                                                    <img class="lightshadowed" loading="lazy" title="@evolutionList[i].EvolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, @evolutionList[i].EvolutionPokemon.Id, ".png"))" />
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a class="evolutionImage"  href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = evolutionList[i].EvolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = evolutionList[i].EvolutionPokemonId, generationId = @g })">
-                                                    <img class="lightshadowed" loading="lazy" title="@evolutionList[i].EvolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, @evolutionList[i].EvolutionPokemon.Id, ".png"))" />
-                                                </a>
-                                            }
+                                            <a class="evolutionImage"  href="@this.Url.Action("PokemonWithOnlyId", "Home", new { pokemonId = evolutionList[i].EvolutionPokemonId, generationId = @g })">
+                                                <img class="lightshadowed" loading="lazy" title="@evolutionList[i].EvolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, @evolutionList[i].EvolutionPokemon.Id, ".png"))" />
+                                            </a>
                                         </th>
                                         <td>
-                                            @if (@evolutionList[i].EvolutionPokemon.Name.Contains(" ("))
-                                            {
-                                                <a class="evolutionLink" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = evolutionList[i].EvolutionPokemon.Name.Substring(0, evolutionList[i].EvolutionPokemon.Name.IndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = evolutionList[i].EvolutionPokemonId, generationId = @g })">@evolutionList[i].EvolutionPokemon.Name - @evolutionList[i].EvolutionMethod.Name</a>
-                                            }
-                                            else
-                                            {
-                                                <a class="evolutionLink" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = evolutionList[i].EvolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = evolutionList[i].EvolutionPokemonId, generationId = @g })">@evolutionList[i].EvolutionPokemon.Name - @evolutionList[i].EvolutionMethod.Name</a>
-                                            }
+                                            <a class="evolutionLink" href="@this.Url.Action("PokemonWithOnlyId", "Home", new { pokemonId = evolutionList[i].EvolutionPokemonId, generationId = @g })">@evolutionList[i].EvolutionPokemon.Name - @evolutionList[i].EvolutionMethod.Name</a>
                                             @if (evolutionList[i].EvolutionDetails != null)
                                             {
                                                 <p>@evolutionList[i].EvolutionDetails</p>
@@ -1193,28 +1145,12 @@ Description: @item.Abilities.OrderByDescending(x => x.GenerationId).First(x => x
                                         @if (evolutionList.ElementAtOrDefault(i+1) != null)
                                         {
                                             <th>
-                                                @if (@evolutionList[i+1].EvolutionPokemon.Name.Contains(" ("))
-                                                {
-                                                    <a class="evolutionImage"  href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = evolutionList[i+1].EvolutionPokemon.Name.Substring(0, evolutionList[i+1].EvolutionPokemon.Name.IndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = evolutionList[i+1].EvolutionPokemonId, generationId = @g })">
-                                                        <img class="lightshadowed" loading="lazy" title="@evolutionList[i+1].EvolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, @evolutionList[i+1].EvolutionPokemon.Id, ".png"))" />
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <a class="evolutionImage"  href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = evolutionList[i+1].EvolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = evolutionList[i+1].EvolutionPokemonId, generationId = @g })">
-                                                        <img class="lightshadowed" loading="lazy" title="@evolutionList[i+1].EvolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, @evolutionList[i+1].EvolutionPokemon.Id, ".png"))" />
-                                                    </a>
-                                                }
+                                                <a class="evolutionImage"  href="@this.Url.Action("PokemonWithOnlyId", "Home", new { pokemonId = evolutionList[i+1].EvolutionPokemonId, generationId = @g })">
+                                                    <img class="lightshadowed" loading="lazy" title="@evolutionList[i+1].EvolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, @evolutionList[i+1].EvolutionPokemon.Id, ".png"))" />
+                                                </a>
                                             </th>
                                             <td>
-                                                @if (@evolutionList[i+1].EvolutionPokemon.Name.Contains(" ("))
-                                                {
-                                                    <a class="evolutionLink" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = evolutionList[i+1].EvolutionPokemon.Name.Substring(0, evolutionList[i+1].EvolutionPokemon.Name.IndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = evolutionList[i+1].EvolutionPokemonId, generationId = @g })">@evolutionList[i+1].EvolutionPokemon.Name - @evolutionList[i+1].EvolutionMethod.Name</a>
-                                                }
-                                                else
-                                                {
-                                                    <a class="evolutionLink" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = evolutionList[i+1].EvolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = evolutionList[i+1].EvolutionPokemonId, generationId = @g })">@evolutionList[i+1].EvolutionPokemon.Name - @evolutionList[i+1].EvolutionMethod.Name</a>
-                                                }
+                                                <a class="evolutionLink" href="@this.Url.Action("PokemonWithOnlyId", "Home", new { pokemonId = evolutionList[i+1].EvolutionPokemonId, generationId = @g })">@evolutionList[i+1].EvolutionPokemon.Name - @evolutionList[i+1].EvolutionMethod.Name</a>
                                                 @if (evolutionList[i+1].EvolutionDetails != null)
                                                 {
                                                     <p>@evolutionList[i+1].EvolutionDetails</p>
@@ -1229,28 +1165,12 @@ Description: @item.Abilities.OrderByDescending(x => x.GenerationId).First(x => x
                                 {
                                     <tr>
                                         <th>
-                                            @if (e.EvolutionPokemon.Name.Contains(" ("))
-                                            {
-                                                <a class="evolutionImage"  href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = e.EvolutionPokemon.Name.Substring(0, e.EvolutionPokemon.Name.IndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = e.EvolutionPokemonId, generationId = @g })">
-                                                    <img class="lightshadowed" loading="lazy" title="@e.EvolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, e.EvolutionPokemon.Id, ".png"))" />
-                                                </a>
-                                            }
-                                            else
-                                            {
-                                                <a class="evolutionImage"  href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = e.EvolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = e.EvolutionPokemonId, generationId = @g })">
-                                                    <img class="lightshadowed" loading="lazy" title="@e.EvolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, e.EvolutionPokemon.Id, ".png"))" />
-                                                </a>
-                                            }
+                                            <a class="evolutionImage"  href="@this.Url.Action("PokemonWithOnlyId", "Home", new { pokemonId = e.EvolutionPokemonId, generationId = @g })">
+                                                <img class="lightshadowed" loading="lazy" title="@e.EvolutionPokemon.Name" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.IconImageUrl, e.EvolutionPokemon.Id, ".png"))" />
+                                            </a>
                                         </th>
                                         <td>
-                                            @if (e.EvolutionPokemon.Name.Contains(" ("))
-                                            {
-                                                <a class="evolutionLink" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = e.EvolutionPokemon.Name.Substring(0, e.EvolutionPokemon.Name.IndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = e.EvolutionPokemonId, generationId = @g })">@e.EvolutionPokemon.Name</a>
-                                            }
-                                            else
-                                            {
-                                                <a class="evolutionLink" href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = e.EvolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = e.EvolutionPokemonId, generationId = @g })">@e.EvolutionPokemon.Name</a>
-                                            }
+                                            <a class="evolutionLink" href="@this.Url.Action("PokemonWithOnlyId", "Home", new { pokemonId = e.EvolutionPokemonId, generationId = @g })">@e.EvolutionPokemon.Name</a>
                                             <p>@e.EvolutionMethod.Name@(e.EvolutionDetails != null ? string.Concat(" (", e.EvolutionDetails, ")") : string.Empty)</p>
                                         </td>
                                     </tr>

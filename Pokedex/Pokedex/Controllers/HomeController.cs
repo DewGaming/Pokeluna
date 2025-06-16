@@ -310,11 +310,11 @@ namespace Pokedex.Controllers
         /// The method that is used to specify a generation and alternate form for the pokemon page.
         /// </summary>
         /// <param name="pokemonId">The Id of the pokemon.</param>
-        /// <param name="generationId">The Id of the generation.</param>
+        /// <param name="generationId">The Id of the generation. Defaults to 0.</param>
         /// <returns>Returns the pokemon page's method.</returns>
         [AllowAnonymous]
         [Route("pokemon/{pokemonId:int}/{generationId:int}")]
-        public IActionResult PokemonWithOnlyId(int pokemonId, int generationId)
+        public IActionResult PokemonWithOnlyId(int pokemonId, int generationId = 0)
         {
             Pokemon pokemon = this.dataService.GetObjectByPropertyValue<Pokemon>("Id", pokemonId);
 

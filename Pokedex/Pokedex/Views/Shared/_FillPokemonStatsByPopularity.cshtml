@@ -6,18 +6,9 @@
     @foreach (var p in Model.PokemonList)
     {
         <div class="shadowed @p.Name@(p.IsComplete ? "" : " incomplete")">
-            @if (p.Name.IndexOf(" (") > -1)
-            {
-                <a href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = p.Name.Substring(0, p.Name.IndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = @p.Id, generationId = @Model.Generation.Id })">
-                    <img class="pokemonListPicture" loading="lazy" title="@p.Name", src="@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.GridImageUrl, @p.Id, ".png"))">
-                </a>
-            }
-            else
-            {
-                <a href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = p.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = @p.Id, generationId = @Model.Generation.Id })">
-                    <img class="pokemonListPicture" loading="lazy" title="@p.Name", src="@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.GridImageUrl, @p.Id, ".png"))">
-                </a>
-            }
+            <a href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName = p.Name.Replace(": ", "_").Replace(' ', '_').ToLower(), pokemonId = @p.Id, generationId = @Model.Generation.Id })">
+                <img class="pokemonListPicture" loading="lazy" title="@p.Name", src="@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.GridImageUrl, @p.Id, ".png"))">
+            </a>
             <div class="description">
                 <span class="pokemonName">#@p.PokedexNumber.ToString().PadLeft(4, '0') @p.Name</span>
                 <br>

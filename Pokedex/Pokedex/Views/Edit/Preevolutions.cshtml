@@ -1,8 +1,5 @@
 @using Pokedex.Models;
 @model Pokedex.Models.EditEvolutionViewModel;
-@{
-    string pokemonName;
-}
 
 @section styles
 {
@@ -21,29 +18,21 @@
     <div class="grid-container">
         @foreach (var item in Model.AllEvolutions)
         {
-            @if (item.PreevolutionPokemon.Name.LastIndexOf(" (") != -1)
-            {
-                pokemonName = @item.PreevolutionPokemon.Name.Substring(0, item.PreevolutionPokemon.Name.LastIndexOf(" (")).Replace(": ", "_").Replace(' ', '_').ToLower();
-            }
-            else
-            {
-                pokemonName = @item.PreevolutionPokemon.Name.ToLower();
-            }
             <div class="@item.PreevolutionPokemon.Name @(item.PreevolutionPokemon.IsComplete ? "" : "incomplete")">
                 @if (item.PreevolutionPokemon.IsComplete)
                 {
-                    <a href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName, pokemonId = @item.PreevolutionPokemonId, generationId = item.GenerationId })">
-                        <img class="pokemonListPicture" title="@pokemonName" loading="lazy" src="@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.GridImageUrl, @item.PreevolutionPokemonId, ".png"))"/>
+                    <a href="@this.Url.Action("PokemonWithId", "Home", new { item.PreevolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_'), pokemonId = @item.PreevolutionPokemonId, generationId = item.GenerationId })">
+                        <img class="pokemonListPicture" title="@item.PreevolutionPokemon.Name.ToLower()" loading="lazy" src="@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.GridImageUrl, @item.PreevolutionPokemonId, ".png"))"/>
                     </a>
                 }
                 else
                 {
-                    <img class="pokemonListPicture" title="@pokemonName" loading="lazy" src="@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.GridImageUrl, @item.PreevolutionPokemonId, ".png"))"/>
+                    <img class="pokemonListPicture" title="@item.PreevolutionPokemon.Name.ToLower()" loading="lazy" src="@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.GridImageUrl, @item.PreevolutionPokemonId, ".png"))"/>
                 }
                 <div>
                     @if (item.PreevolutionPokemon.IsComplete)
                     {
-                        <a href="@this.Url.Action("PokemonWithId", "Home", new { pokemonName, pokemonId = @item.PreevolutionPokemonId, generationId = item.GenerationId })" class="pokemonName">@item.PreevolutionPokemon.Name</a>
+                        <a href="@this.Url.Action("PokemonWithId", "Home", new { item.PreevolutionPokemon.Name.Replace(": ", "_").Replace(' ', '_'), pokemonId = @item.PreevolutionPokemonId, generationId = item.GenerationId })" class="pokemonName">@item.PreevolutionPokemon.Name</a>
                     }
                     else
                     {
