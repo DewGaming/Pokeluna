@@ -935,9 +935,8 @@ namespace Pokedex.Controllers
             if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
                 RegionalDex regionalDex = this.dataService.GetObjectByPropertyValue<RegionalDex>("Id", regionalDexId);
-                List<Pokemon> allPokemon = this.dataService.GetAllPokemon();
-                allPokemon = allPokemon.Where(x => pokemonList.Any(y => y == x.Name)).DistinctBy(x => x.Name).OrderBy(x => pokemonList.IndexOf(x.Name)).ToList();
-                List<int> pokemonIds = allPokemon.Select(x => x.Id).ToList();
+                List<Pokemon> allPokemon = this.dataService.GetAllPokemon().Where(x => pokemonList.Any(y => y == x.Name)).ToList();
+                List<int> pokemonIds = allPokemon.DistinctBy(x => x.Name).OrderBy(x => pokemonList.IndexOf(x.Name)).Select(x => x.Id).ToList();
                 List<RegionalDexEntry> existingDexEntries = this.dataService.GetObjects<RegionalDexEntry>(includes: "Pokemon, RegionalDex", whereProperty: "RegionalDexId", wherePropertyValue: regionalDexId);
                 List<RegionalDexEntry> newDexEntries = new List<RegionalDexEntry>();
                 if (allPokemon.First().Name == "Victini")
@@ -2616,55 +2615,6 @@ namespace Pokedex.Controllers
                 };
                 this.dataService.UpdateObject<User>(user);
             }
-        }
-
-        /// <summary>
-        /// Inserts Ogerpon's Tera ability into the pokemon page.
-        /// </summary>
-        /// <param name="pokemonId">The Pokemon's Id. Used to modify the description of the ability.</param>
-        /// <returns>Returns the description of the ability Embody Aspect based on Ogerpon's Tera.</returns>
-        [Route("grab-ogerpon-tera-ability")]
-        public Ability GrabOgerponTeraAbility(int pokemonId)
-        {
-            if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest" && this.User.Identity.Name != null)
-            {
-                int abilityId = pokemonId switch
-                {
-                    // Wellspring Mask Ogerpon's internal id.
-                    1879 => 319,
-
-                    // Hearthflame Mask Ogerpon's internal id.
-                    1880 => 320,
-
-                    // Cornerstone Mask Ogerpon's internal id.
-                    1881 => 321,
-
-                    // Default value (Used for regular Ogerpon).
-                    _ => 314,
-                };
-                Ability teraAbility = this.dataService.GetObjectByPropertyValue<Ability>("Id", abilityId);
-
-                return teraAbility;
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Gets the abilities for the given Ogerpon form combination.
-        /// </summary>
-        /// <param name="pokemonId">Ogerpon's id.</param>
-        /// <returns>The regular ability of Ogerpon.</returns>
-        [Route("grab-ogerpon-regular-ability")]
-        public Ability GrabOgerponRegularAbility(int pokemonId)
-        {
-            if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            {
-                PokemonAbilityDetail pokemonAbilityDetail = this.dataService.GetObjects<PokemonAbilityDetail>(includes: "PrimaryAbility", whereProperty: "PokemonId", wherePropertyValue: pokemonId).Find(x => x.GenerationId == 9);
-                return pokemonAbilityDetail.PrimaryAbility;
-            }
-
-            return null;
         }
 
         /// <summary>

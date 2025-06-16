@@ -12,7 +12,7 @@ namespace Pokedex.DataAccess.Models
         /// </summary>
         public int Id { get; set; }
 
-        [StringLength(25), Required]
+        [Required]
         /// <summary>
         /// Gets or sets the name of the form.
         /// </summary>
@@ -44,7 +44,7 @@ namespace Pokedex.DataAccess.Models
         [Display(Name="Only Available During Battle"), Required]
         /// <summary>
         /// Gets or sets whether or not it is only available during a pokemon battle.
-        /// </summary>
+        /// </summary>6
         public bool OnlyDuringBattle { get; set; }
 
         [Display(Name="Fusion Form"), Required]
@@ -52,5 +52,11 @@ namespace Pokedex.DataAccess.Models
         /// Gets or sets whether or not it is only possible through fusion.
         /// </summary>
         public bool FusionForm { get; set; }
+
+        [Display(Name="Only With Tera"), Required]
+        /// <summary>
+        /// Gets or sets whether or not it is only available thru terastallization.
+        /// </summary>
+        public bool OnlyWithTera { get; set; }
     }
 }

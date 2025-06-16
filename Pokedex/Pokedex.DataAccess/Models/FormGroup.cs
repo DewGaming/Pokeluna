@@ -5,7 +5,7 @@ namespace Pokedex.DataAccess.Models
     public class FormGroup
     {
         public int Id { get; set; }
-        [Display(Name = "Form Group Name (Will Appear In Team Randomizer)"), StringLength(20), Required]
+        [Display(Name = "Form Group Name (Will Appear In Team Randomizer)"), Required]
         public string Name { get; set; }
         [Display(Name = "Will this Form Group appear separetely in the Team Randomizer"), Required]
         public bool AppearInTeamRandomizer { get; set; }

@@ -14,6 +14,7 @@
             <th scope="col">Form Group (Used in Team Randomizer)</th>
             <th scope="col">Needs An Item</th>
             <th scope="col">Only During Battle</th>
+            <th scope="col">Only With Tera</th>
             <th scope="col">Fusion Form</th>
             <th scope="col">Actions</th>
         </tr>
@@ -25,6 +26,7 @@
                 <td>@(item.FormGroup != null ? @item.FormGroup.Name : string.Empty)</td>
                 <td>@(item.NeedsItem ? "X" : string.Empty)</td>
                 <td>@(item.OnlyDuringBattle ? "X" : string.Empty)</td>
+                <td>@(item.OnlyWithTera ? "X" : string.Empty)</td>
                 <td>@(item.FusionForm ? "X" : string.Empty)</td>
                 <td>
                     <a href="@(this.Url.Action("Form", "Edit", new { id = item.Id }))">Edit</a>

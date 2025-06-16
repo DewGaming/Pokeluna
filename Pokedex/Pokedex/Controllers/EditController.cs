@@ -1328,6 +1328,11 @@ namespace Pokedex.Controllers
                 return this.View(model);
             }
 
+            if (form.OnlyWithTera && !form.OnlyDuringBattle)
+            {
+                form.OnlyDuringBattle = true;
+            }
+
             this.dataService.UpdateObject(form);
 
             return this.RedirectToAction("Forms", "Owner");

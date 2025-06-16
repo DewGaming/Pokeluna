@@ -728,6 +728,11 @@ namespace Pokedex.Controllers
                 return this.View(model);
             }
 
+            if (form.OnlyWithTera && !form.OnlyDuringBattle)
+            {
+                form.OnlyDuringBattle = true;
+            }
+
             this.dataService.AddObject(form);
 
             return this.RedirectToAction("Forms", "Owner");
@@ -1230,7 +1235,6 @@ namespace Pokedex.Controllers
             }
 
             Pokemon alternatePokemon = this.dataService.GetObjectByPropertyValue<Pokemon>("Id", pokemon.OriginalPokemonId);
-
             alternatePokemon.Id = 0;
             alternatePokemon.PokedexNumber = this.dataService.GetObjectByPropertyValue<Pokemon>("Id", pokemon.OriginalPokemonId).PokedexNumber;
             alternatePokemon.Height = pokemon.Height;
@@ -1238,6 +1242,11 @@ namespace Pokedex.Controllers
             alternatePokemon.GameId = pokemon.GameId;
             alternatePokemon.ClassificationId = pokemon.ClassificationId;
             alternatePokemon.IsComplete = false;
+            alternatePokemon.OriginalFormId = pokemon.OriginalPokemonId;
+            alternatePokemon.FormId = pokemon.FormId;
+            alternatePokemon.HasHomeArtwork = false;
+            alternatePokemon.HasShinyArtwork = false;
+            alternatePokemon.HasGenderDifference = false;
 
             this.dataService.AddObject(alternatePokemon);
 

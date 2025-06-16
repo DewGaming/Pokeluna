@@ -152,12 +152,12 @@
         <div class="page generation@(g) pokemon@(@item.Pokemon.Id == @Model.PokemonId && @g == @Model.GenerationId ? " active" : string.Empty)" id="@item.Pokemon.Name.Replace("!", "Exclamation").Replace("?", "Question").Replace("%", string.Empty).Replace(".",string.Empty).Replace("'", string.Empty).Replace("(", string.Empty).Replace(")", string.Empty).Replace(" ", string.Empty)">
             <div class="pokemonInfo pokemonPicture pokemonTables">
                 <div style="@(Model.PokemonList.Count() > 1 ? "display: flex" : string.Empty)">
-                    @if (Model.PokemonList.Count() > 1 && item.Pokemon.Id != 1882)
+                    @if (Model.PokemonList.Count() > 1 && !(item.Pokemon.IsAltForm && item.Pokemon.Form.OnlyWithTera))
                     {
                         <div class="differentForms">
                             <h2 class="formHeader">Forms</h2>
                             <div class="formButtons">
-                            @foreach (var button in Model.PokemonList.Where(x => x.Pokemon.Id != item.Pokemon.Id && x.Pokemon.Id != 1882))
+                            @foreach (var button in Model.PokemonList.Where(x => x.Pokemon.Id != item.Pokemon.Id && !(x.Pokemon.IsAltForm && x.Pokemon.Form.OnlyWithTera)))
                             {
                                 iconLink = Url.Content(string.Concat(button.AppConfig.WebUrl, button.AppConfig.IconImageUrl, button.Pokemon.Id, ".png"));
                                 <div class="@button.Pokemon.Name">
@@ -171,7 +171,7 @@
                     }
                     <div class="shadowed@(Model.PokemonList.Count() > 1 ? " pokemonWithForms" : string.Empty)">
                         <div class="pokemonImage">
-                            <div class="official current" style="@(!item.HasShiny && !item.HasHome ? "position: relative !important" : "")">
+                            <div class="official current">
                                 <img title="@item.Pokemon.Name" id="@item.Pokemon.Id" loading="lazy" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.OfficialPokemonImageUrl, @item.Pokemon.Id, ".png"))" />
                             </div>
                             @if (@item.HasFemaleGenderDifference || @item.HasMaleGenderDifference)
@@ -228,25 +228,39 @@
                                     }
                                 </div>
                             }
+
                             @if (@item.HasShiny)
                             {
-                                <div class="shiny" style="@(!item.HasHome ? "position: relative !important" : "")">
+                                <div class="shiny">
                                     <img title="@item.Pokemon.Name" id="@item.Pokemon.Id" loading="lazy" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.ShinyPokemonImageUrl, @item.Pokemon.Id, ".png"))" />
                                 </div>
                             }
+                            else
+                            {
+                                <div class="shiny">
+                                    <img title="@item.Pokemon.Name" id="@item.Pokemon.Id" loading="lazy" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.OfficialPokemonImageUrl, @item.Pokemon.Id, ".png"))" />
+                                </div>
+                            }
+
                             @if (@item.HasHome)
                             {
                                 <div class="home">
                                     <img title="@item.Pokemon.Name" id="@item.Pokemon.Id" loading="lazy" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.HomePokemonImageUrl, @item.Pokemon.Id, ".png"))" />
                                 </div>
                             }
+                            else
+                            {
+                                <div class="home">
+                                    <img title="@item.Pokemon.Name" id="@item.Pokemon.Id" loading="lazy" src="@Url.Content(string.Concat(@item.AppConfig.WebUrl, @item.AppConfig.OfficialPokemonImageUrl, @item.Pokemon.Id, ".png"))" />
+                                </div>
+                            }
                         </div>
-                        @if (Model.PokemonList.Count() > 1 && item.Pokemon.Id != 1882)
+                        @if (Model.PokemonList.Count() > 1 && !(item.Pokemon.IsAltForm && item.Pokemon.Form.OnlyWithTera))
                         {
                             <div class="differentFormsMobile">
                                 <h2>Different Forms</h2>
                                 <div class="formButtonsMobile">
-                                    @foreach (var button in Model.PokemonList.Where(x => x.Pokemon.Id != item.Pokemon.Id && x.Pokemon.Id != 1882))
+                                    @foreach (var button in Model.PokemonList.Where(x => x.Pokemon.Id != item.Pokemon.Id && !(x.Pokemon.IsAltForm && x.Pokemon.Form.OnlyWithTera)))
                                     {
                                         iconLink = Url.Content(string.Concat(button.AppConfig.WebUrl, button.AppConfig.IconImageUrl, button.Pokemon.Id, ".png"));
                                         <button onclick="lookupPokemon('@button.Pokemon.Name.Replace("!", "Exclamation").Replace("?", "Question").Replace("%", string.Empty).Replace("'", string.Empty).Replace(".", string.Empty).Replace("(", string.Empty).Replace(")", string.Empty).Replace(" ", string.Empty)', '@iconLink', '@button.Pokemon.Name.Replace("'", "&apos;")', '@g')">
@@ -734,19 +748,19 @@ Description: @item.Abilities.OrderByDescending(x => x.GenerationId).First(x => x
                                 {
                                     <select class="form-control teraTypeSelectList ogerponTera" id="TeraTypes" name="TeraTypes">
                                         <option value="0">Not Terastallized</option>
-                                        @if (item.Pokemon.Id == 1768)
+                                        @if (item.Pokemon.Id == 1768 || item.Pokemon.Id == 1890)
                                         {
                                             <option value="1">Grass</option>
                                         }
-                                        else if (item.Pokemon.Id == 1879)
+                                        else if (item.Pokemon.Id == 1879 || item.Pokemon.Id == 1891)
                                         {
                                             <option value="3">Water</option>
                                         }
-                                        else if (item.Pokemon.Id == 1880)
+                                        else if (item.Pokemon.Id == 1880 || item.Pokemon.Id == 1892)
                                         {
                                             <option value="4">Fire</option>
                                         }
-                                        else if (item.Pokemon.Id == 1881)
+                                        else if (item.Pokemon.Id == 1881 || item.Pokemon.Id == 1893)
                                         {
                                             <option value="18">Rock</option>
                                         }
@@ -837,7 +851,7 @@ Description: @item.Abilities.OrderByDescending(x => x.GenerationId).First(x => x
                             WeakAgainst.Sort();
                             ImmuneTo.Sort();
 
-                            if (item.Pokemon.Id == 1882)
+                            if (item.Pokemon.IsAltForm && item.Pokemon.Form.OnlyWithTera)
                             {
                                 WeakAgainst.Add("Stellar");
                             }

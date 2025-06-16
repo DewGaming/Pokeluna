@@ -128,35 +128,47 @@ var officialRender = function() {
             $(".ImmuneTo").css("display", "none");
         }
     });
-}, grabOgerponTeraAbility = function (pokemonId) {
-    $.ajax({
-        url: '/grab-ogerpon-tera-ability/',
-        method: "POST",
-        data: { 'pokemonId': pokemonId }
-    })
-        .done(function (data) {
-            $('.page.active .abilities .cursorHelp').html(data.name);
-            $('.page.active .abilities .cursorHelp').attr('title', 'Ability Name: ' + data.name + ' Description: ' + data.description);
-        });
-}, grabOgerponRegularAbility = function (pokemonId) {
-    $.ajax({
-        url: '/grab-ogerpon-regular-ability/',
-        method: "POST",
-        data: { 'pokemonId': pokemonId }
-    })
-        .done(function (data) {
-            $('.page.active .abilities .cursorHelp').html(data.name);
-            $('.page.active .abilities .cursorHelp').attr('title', 'Ability Name: ' + data.name + ' Description: ' + data.description);
-        });
 }
 
 $(document).ready(function () {
-    if ($('#TerapagosStellar').length) {
-        $('#TerapagosStellar.page .teraTypeSelectList').val(99);
+    if ($('#Ogerpon').length) {
+        $('#Ogerpon.page .teraTypeSelectList').val(0);
+    }
+
+    if ($('#OgerponWellspringMask').length) {
+        $('#OgerponWellspringMask.page .teraTypeSelectList').val(0);
+    }
+
+    if ($('#OgerponHearthflameMask').length) {
+        $('#OgerponHearthflameMask.page .teraTypeSelectList').val(0);
+    }
+
+    if ($('#OgerponCornerstoneMask').length) {
+        $('#OgerponCornerstoneMask.page .teraTypeSelectList').val(0);
     }
 
     if ($('#TerapagosTerastal').length) {
         $('#TerapagosTerastal.page .teraTypeSelectList').val(0);
+    }
+    
+    if ($('#OgerponTealMaskTerastallized').length) {
+        $('#OgerponTealMaskTerastallized.page .teraTypeSelectList').val(1);
+    }
+
+    if ($('#OgerponWellspringMaskTerastallized').length) {
+        $('#OgerponWellspringMaskTerastallized.page .teraTypeSelectList').val(3);
+    }
+
+    if ($('#OgerponHearthflameMaskTerastallized').length) {
+        $('#OgerponHearthflameMaskTerastallized.page .teraTypeSelectList').val(4);
+    }
+
+    if ($('#OgerponCornerstoneMaskTerastallized').length) {
+        $('#OgerponCornerstoneMaskTerastallized.page .teraTypeSelectList').val(18);
+    }
+
+    if ($('#TerapagosStellar').length) {
+        $('#TerapagosStellar.page .teraTypeSelectList').val(99);
     }
 
     $('.teraTypeSelectList').select2();
@@ -182,7 +194,33 @@ $('.teraTypeSelectList').on('change', function () {
             grabStellarChart(pokemonId, generationId);
         } 
     } else if (teraType != 0) {
-        grabTypingChart(teraType, generationId);
+        if (pokemonId == 1768) {
+            $('#Ogerpon.page.active .teraTypeSelectList').val(0);
+            $('#Ogerpon.page').removeClass('active');
+            $('#Ogerpon.generations').removeClass('active');
+            $('#OgerponTealMaskTerastallized.page').addClass('active');
+            $('#OgerponTealMaskTerastallized.generations').addClass('active');
+        } else if (pokemonId == 1879) {
+            $('#OgerponWellspringMask.page.active .teraTypeSelectList').val(0);
+            $('#OgerponWellspringMask.page').removeClass('active');
+            $('#OgerponWellspringMask.generations').removeClass('active');
+            $('#OgerponWellspringMaskTerastallized.page').addClass('active');
+            $('#OgerponWellspringMaskTerastallized.generations').addClass('active');
+        } else if (pokemonId == 1880) {
+            $('#OgerponHearthflameMask.page.active .teraTypeSelectList').val(0);
+            $('#OgerponHearthflameMask.page').removeClass('active');
+            $('#OgerponHearthflameMask.generations').removeClass('active');
+            $('#OgerponHearthflameMaskTerastallized.page').addClass('active');
+            $('#OgerponHearthflameMaskTerastallized.generations').addClass('active');
+        } else if (pokemonId == 1881) {
+            $('#OgerponCornerstoneMask.page.active .teraTypeSelectList').val(0);
+            $('#OgerponCornerstoneMask.page').removeClass('active');
+            $('#OgerponCornerstoneMask.generations').removeClass('active');
+            $('#OgerponCornerstoneMaskTerastallized.page').addClass('active');
+            $('#OgerponCornerstoneMaskTerastallized.generations').addClass('active');
+        } else {
+            grabTypingChart(teraType, generationId);
+        }
     } else {
         if (pokemonId == 1882) {
             $('#TerapagosStellar.page.active .teraTypeSelectList').val(99);
@@ -190,6 +228,30 @@ $('.teraTypeSelectList').on('change', function () {
             $('#TerapagosStellar.generations').removeClass('active');
             $('#TerapagosTerastal.page').addClass('active');
             $('#TerapagosTerastal.generations').addClass('active');
+        } else if (pokemonId == 1890) {
+            $('#OgerponTealMaskTerastallized.page.active .teraTypeSelectList').val(1);
+            $('#OgerponTealMaskTerastallized.page').removeClass('active');
+            $('#OgerponTealMaskTerastallized.generations').removeClass('active');
+            $('#Ogerpon.page').addClass('active');
+            $('#Ogerpon.generations').addClass('active');
+        } else if (pokemonId == 1891) {
+            $('#OgerponWellspringMaskTerastallized.page.active .teraTypeSelectList').val(3);
+            $('#OgerponWellspringMaskTerastallized.page').removeClass('active');
+            $('#OgerponWellspringMaskTerastallized.generations').removeClass('active');
+            $('#OgerponWellspringMask.page').addClass('active');
+            $('#OgerponWellspringMask.generations').addClass('active');
+        } else if (pokemonId == 1892) {
+            $('#OgerponHearthflameMaskTerastallized.page.active .teraTypeSelectList').val(4);
+            $('#OgerponHearthflameMaskTerastallized.page').removeClass('active');
+            $('#OgerponHearthflameMaskTerastallized.generations').removeClass('active');
+            $('#OgerponHearthflameMask.page').addClass('active');
+            $('#OgerponHearthflameMask.generations').addClass('active');
+        } else if (pokemonId == 1893) {
+            $('#OgerponCornerstoneMaskTerastallized.page.active .teraTypeSelectList').val(18);
+            $('#OgerponCornerstoneMaskTerastallized.page').removeClass('active');
+            $('#OgerponCornerstoneMaskTerastallized.generations').removeClass('active');
+            $('#OgerponCornerstoneMask.page').addClass('active');
+            $('#OgerponCornerstoneMask.generations').addClass('active');
         } else {
             grabTypingChartByPokemon(pokemonId, generationId);
         }
@@ -200,11 +262,5 @@ $('.teraTypeSelectList').on('change', function () {
             teraType = 0;
         }
         $('.pokemonPicture .pokemonImage').load('/get-pokemon-images-with-type/', { 'pokemonId': pokemonId, 'typeId': teraType, 'currentImage': currentImage });
-    } else if ($('#Pokemon_Name').val().indexOf('Ogerpon') >= 0) {
-        if (teraType != 0) {
-            grabOgerponTeraAbility(pokemonId);
-        } else {
-            grabOgerponRegularAbility(pokemonId);
-        }
     }
 });
