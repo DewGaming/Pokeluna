@@ -8,7 +8,6 @@ using Pokedex.Models;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Pokedex.Controllers
 {
@@ -504,7 +503,7 @@ namespace Pokedex.Controllers
 
             this.dataService.AddObject(pokeball);
 
-            this.dataService.UploadImages(officialUpload, officialUrlUpload, pokeball.Id.ToString(), this.appConfig, "pokeball");
+            this.dataService.UploadImages(officialUpload, officialUrlUpload, pokeball.Id.ToString(), this.appConfig, ImageType.Pokeball);
 
             return this.RedirectToAction("Pokeballs", "Owner");
         }
@@ -528,7 +527,7 @@ namespace Pokedex.Controllers
 
             this.dataService.AddObject(mark);
 
-            this.dataService.UploadImages(officialUpload, officialUrlUpload, mark.Id.ToString(), this.appConfig, "mark");
+            this.dataService.UploadImages(officialUpload, officialUrlUpload, mark.Id.ToString(), this.appConfig, ImageType.Mark);
 
             return this.RedirectToAction("Marks", "Owner");
         }
@@ -552,7 +551,7 @@ namespace Pokedex.Controllers
 
             this.dataService.AddObject(sweet);
 
-            this.dataService.UploadImages(officialUpload, officialUrlUpload, sweet.Id.ToString(), this.appConfig, "sweet");
+            this.dataService.UploadImages(officialUpload, officialUrlUpload, sweet.Id.ToString(), this.appConfig, ImageType.Sweet);
 
             return this.RedirectToAction("Sweets", "Owner");
         }
@@ -949,7 +948,7 @@ namespace Pokedex.Controllers
 
             this.dataService.AddObject(newPokemon);
 
-            this.dataService.UploadImages(officialUpload, officialUrlUpload, newPokemon.Id.ToString(), this.appConfig, "2d");
+            this.dataService.UploadImages(officialUpload, officialUrlUpload, newPokemon.Id.ToString(), this.appConfig, ImageType.Official);
 
             this.dataService.AddObject(new PokemonGameDetail()
             {
@@ -1038,7 +1037,7 @@ namespace Pokedex.Controllers
 
             this.dataService.AddObject(alternatePokemon);
 
-            this.dataService.UploadImages(officialUpload, officialUrlUpload, alternatePokemon.Id.ToString(), this.appConfig, "2d");
+            this.dataService.UploadImages(officialUpload, officialUrlUpload, alternatePokemon.Id.ToString(), this.appConfig, ImageType.Official);
 
             PokemonEggGroupDetail eggGroups = this.dataService.GetObjects<PokemonEggGroupDetail>(includes: "Pokemon, PrimaryEggGroup, SecondaryEggGroup", whereProperty: "PokemonId", wherePropertyValue: pokemon.OriginalPokemonId).Last();
             PokemonEggGroupDetail alternatePokemonEggGroups = new PokemonEggGroupDetail()

@@ -7,7 +7,6 @@ using Pokedex.DataAccess.Models;
 using Pokedex.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Pokedex.Controllers
 {
@@ -506,7 +505,7 @@ namespace Pokedex.Controllers
                 return this.View(model);
             }
 
-            this.dataService.UploadImages(fileUpload, urlUpload, id.ToString(), this.appConfig, "2d");
+            this.dataService.UploadImages(fileUpload, urlUpload, id.ToString(), this.appConfig, ImageType.Official);
 
             return this.RedirectToAction("Pokemon", "Owner");
         }
@@ -566,7 +565,8 @@ namespace Pokedex.Controllers
                 return this.View(model);
             }
 
-            this.dataService.UploadImages(fileUpload, urlUpload, id.ToString(), this.appConfig, "3d");
+            this.dataService.UploadImages(fileUpload, urlUpload, id.ToString(), this.appConfig, ImageType.Home);
+            this.dataService.UpdateImageBools(id, ImageType.Home);
 
             return this.RedirectToAction("Pokemon", "Owner");
         }
@@ -626,7 +626,8 @@ namespace Pokedex.Controllers
                 return this.View(model);
             }
 
-            this.dataService.UploadImages(fileUpload, urlUpload, id.ToString(), this.appConfig, "shiny");
+            this.dataService.UploadImages(fileUpload, urlUpload, id.ToString(), this.appConfig, ImageType.Shiny);
+            this.dataService.UpdateImageBools(id, ImageType.Shiny);
 
             return this.RedirectToAction("Pokemon", "Owner");
         }
@@ -666,7 +667,7 @@ namespace Pokedex.Controllers
                 return this.View(model);
             }
 
-            this.dataService.UploadImages(fileUpload, urlUpload, id.ToString(), this.appConfig, "pokeball");
+            this.dataService.UploadImages(fileUpload, urlUpload, id.ToString(), this.appConfig, ImageType.Pokeball);
 
             return this.RedirectToAction("Pokeballs", "Owner");
         }
@@ -706,7 +707,7 @@ namespace Pokedex.Controllers
                 return this.View(model);
             }
 
-            this.dataService.UploadImages(fileUpload, urlUpload, id.ToString(), this.appConfig, "mark");
+            this.dataService.UploadImages(fileUpload, urlUpload, id.ToString(), this.appConfig, ImageType.Mark);
 
             return this.RedirectToAction("Marks", "Owner");
         }
@@ -746,7 +747,7 @@ namespace Pokedex.Controllers
                 return this.View(model);
             }
 
-            this.dataService.UploadImages(fileUpload, urlUpload, id.ToString(), this.appConfig, "sweet");
+            this.dataService.UploadImages(fileUpload, urlUpload, id.ToString(), this.appConfig, ImageType.Sweet);
 
             return this.RedirectToAction("Sweets", "Owner");
         }
@@ -859,17 +860,17 @@ namespace Pokedex.Controllers
 
             if (officialFileUpload != null || !string.IsNullOrEmpty(officialUrlUpload))
             {
-                this.dataService.UploadImages(officialFileUpload, officialUrlUpload, fileName, this.appConfig, "genderDifference");
-            }
-
-            if (shinyFileUpload != null || !string.IsNullOrEmpty(shinyUrlUpload))
-            {
-                this.dataService.UploadImages(shinyFileUpload, shinyUrlUpload, fileName, this.appConfig, "genderDifferenceShiny");
+                this.dataService.UploadImages(officialFileUpload, officialUrlUpload, fileName, this.appConfig, ImageType.GenderDifference);
             }
 
             if (homeFileUpload != null || !string.IsNullOrEmpty(homeUrlUpload))
             {
-                this.dataService.UploadImages(homeFileUpload, homeUrlUpload, fileName, this.appConfig, "genderDifferenceHome");
+                this.dataService.UploadImages(homeFileUpload, homeUrlUpload, fileName, this.appConfig, ImageType.GenderDifferenceHome);
+            }
+
+            if (shinyFileUpload != null || !string.IsNullOrEmpty(shinyUrlUpload))
+            {
+                this.dataService.UploadImages(shinyFileUpload, shinyUrlUpload, fileName, this.appConfig, ImageType.GenderDifferenceShiny);
             }
 
             return this.RedirectToAction("Pokemon", "Owner");

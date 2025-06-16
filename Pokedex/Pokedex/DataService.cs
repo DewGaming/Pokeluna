@@ -338,7 +338,7 @@ namespace Pokedex
                     if (imageRequest.StatusCode == HttpStatusCode.OK)
                     {
                         pokemonViewModel.HasShiny = true;
-                        this.UpdateImageBools(pokemon.Id, "Shiny");
+                        this.UpdateImageBools(pokemon.Id, ImageType.Shiny);
                     }
                 }
             }
@@ -359,7 +359,7 @@ namespace Pokedex
                     if (imageRequest.StatusCode == HttpStatusCode.OK)
                     {
                         pokemonViewModel.HasHome = true;
-                        this.UpdateImageBools(pokemon.Id, "Home");
+                        this.UpdateImageBools(pokemon.Id, ImageType.Home);
                     }
                 }
             }
@@ -1239,8 +1239,8 @@ namespace Pokedex
         /// <param name="urlUpload">The URL of an image if no file is provided.</param>
         /// <param name="fileName">The name the image will have on the server.</param>
         /// <param name="appConfig">The application config.</param>
-        /// <param name="imageType">Whether this image is for the 2d artwork or the 3d render.</param>
-        public async void UploadImages(IFormFile fileUpload, string urlUpload, string fileName, AppConfig appConfig, string imageType)
+        /// <param name="imageType">What type of image is being uploaded.</param>
+        public async void UploadImages(IFormFile fileUpload, string urlUpload, string fileName, AppConfig appConfig, ImageType imageType)
         {
             string imageUrlPath = string.Empty;
             string iconUrlPath = string.Empty;
@@ -1248,46 +1248,40 @@ namespace Pokedex
             IFormFile upload;
             IFormFile resizedUpload;
 
-            if (imageType == "2d")
+            switch (imageType)
             {
-                imageUrlPath = appConfig.OfficialPokemonImageFTPUrl;
-                iconUrlPath = appConfig.IconImageFTPUrl;
-                gridUrlPath = appConfig.GridImageFTPUrl;
-            }
-            else if (imageType == "3d")
-            {
-                imageUrlPath = appConfig.HomePokemonImageFTPUrl;
-            }
-            else if (imageType == "shiny")
-            {
-                imageUrlPath = appConfig.ShinyPokemonImageFTPUrl;
-                gridUrlPath = appConfig.ShinyGridImageFTPUrl;
-            }
-            else if (imageType == "pokeball")
-            {
-                imageUrlPath = appConfig.OfficialPokeballImageFTPUrl;
-            }
-            else if (imageType == "mark")
-            {
-                imageUrlPath = appConfig.OfficialMarkImageFTPUrl;
-            }
-            else if (imageType == "sweet")
-            {
-                imageUrlPath = appConfig.OfficialSweetImageFTPUrl;
-            }
-            else if (imageType == "genderDifference")
-            {
-                imageUrlPath = appConfig.GenderDifferencePokemonImageFTPUrl;
-                gridUrlPath = appConfig.GenderDifferenceGridImageFTPUrl;
-            }
-            else if (imageType == "genderDifferenceHome")
-            {
-                imageUrlPath = appConfig.GenderDifferenceHomePokemonImageFTPUrl;
-            }
-            else if (imageType == "genderDifferenceShiny")
-            {
-                imageUrlPath = appConfig.GenderDifferenceShinyPokemonImageFTPUrl;
-                gridUrlPath = appConfig.GenderDifferenceShinyGridImageFTPUrl;
+                case ImageType.Official:
+                    imageUrlPath = appConfig.OfficialPokemonImageFTPUrl;
+                    iconUrlPath = appConfig.IconImageFTPUrl;
+                    gridUrlPath = appConfig.GridImageFTPUrl;
+                    break;
+                case ImageType.Home:
+                    imageUrlPath = appConfig.HomePokemonImageFTPUrl;
+                    break;
+                case ImageType.Shiny:
+                    imageUrlPath = appConfig.ShinyPokemonImageFTPUrl;
+                    gridUrlPath = appConfig.ShinyGridImageFTPUrl;
+                    break;
+                case ImageType.Pokeball:
+                    imageUrlPath = appConfig.OfficialPokeballImageFTPUrl;
+                    break;
+                case ImageType.Mark:
+                    imageUrlPath = appConfig.OfficialMarkImageFTPUrl;
+                    break;
+                case ImageType.Sweet:
+                    imageUrlPath = appConfig.OfficialSweetImageFTPUrl;
+                    break;
+                case ImageType.GenderDifference:
+                    imageUrlPath = appConfig.GenderDifferencePokemonImageFTPUrl;
+                    gridUrlPath = appConfig.GenderDifferenceGridImageFTPUrl;
+                    break;
+                case ImageType.GenderDifferenceHome:
+                    imageUrlPath = appConfig.GenderDifferenceHomePokemonImageFTPUrl;
+                    break;
+                case ImageType.GenderDifferenceShiny:
+                    imageUrlPath = appConfig.GenderDifferenceShinyPokemonImageFTPUrl;
+                    gridUrlPath = appConfig.GenderDifferenceShinyGridImageFTPUrl;
+                    break;
             }
 
             if (fileUpload == null && urlUpload != null)
@@ -1308,7 +1302,7 @@ namespace Pokedex
 
             if (upload != null)
             {
-                if (imageType == "pokeball" || imageType == "mark")
+                if (imageType == ImageType.Pokeball || imageType == ImageType.Mark)
                 {
                     resizedUpload = this.TrimImage(upload, 50, 50, true);
                 }
@@ -1451,6 +1445,29 @@ namespace Pokedex
         }
 
         /// <summary>
+        /// Updates the boolean fields of a pokemon to mark an image as available.
+        /// </summary>
+        /// <param name="pokemonId">The Id of the pokemon that will be updated.</param>
+        /// <param name="imageType">The type of image that is available. Options are Shiny or ThreeD.</param>
+        public void UpdateImageBools(int pokemonId, ImageType imageType)
+        {
+            Pokemon pokemon = this.GetObjectByPropertyValue<Pokemon>("Id", pokemonId);
+            switch (imageType)
+            {
+                case ImageType.Shiny:
+                    pokemon.HasShinyArtwork = true;
+                    break;
+                case ImageType.Home:
+                    pokemon.HasHomeArtwork = true;
+                    break;
+                default:
+                    return;
+            }
+
+            this.UpdateObject(pokemon);
+        }
+
+        /// <summary>
         /// Returns the two pokemon that surround the searched pokemon.
         /// </summary>
         /// <param name="pokedexNumber">The viewed Pokemon.</param>
@@ -1533,29 +1550,6 @@ namespace Pokedex
             }
 
             return file;
-        }
-
-        /// <summary>
-        /// Updates the boolean fields of a pokemon to mark an image as available.
-        /// </summary>
-        /// <param name="pokemonId">The Id of the pokemon that will be updated.</param>
-        /// <param name="imageType">The type of image that is available. Options are Shiny or Home.</param>
-        private void UpdateImageBools(int pokemonId, string imageType)
-        {
-            Pokemon pokemon = this.GetObjectByPropertyValue<Pokemon>("Id", pokemonId);
-            switch (imageType)
-            {
-                case "Shiny":
-                    pokemon.HasShinyArtwork = true;
-                    break;
-                case "Home":
-                    pokemon.HasHomeArtwork = true;
-                    break;
-                default:
-                    return;
-            }
-
-            this.UpdateObject(pokemon);
         }
     }
 }

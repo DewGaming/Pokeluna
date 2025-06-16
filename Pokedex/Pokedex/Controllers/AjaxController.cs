@@ -145,53 +145,26 @@ namespace Pokedex.Controllers
         [Route("get-missing-threed-pokemon-admin")]
         public IActionResult GetMissingThreeDPokemonAdmin()
         {
-            if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            AllAdminPokemonViewModel allAdminPokemon = this.dataService.GetAllAdminPokemonDetails();
+            List<Pokemon> pokemonList = this.dataService.GetObjects<Pokemon>("PokedexNumber, Id", "EggCycle, GenderRatio, Classification, Game, Game.Generation, ExperienceGrowth, Form", "HasHomeArtwork", false);
+
+            DropdownViewModel dropdownViewModel = new DropdownViewModel()
             {
-                HttpWebRequest webRequest;
-                HttpWebResponse imageRequest;
-                AllAdminPokemonViewModel allAdminPokemon = this.dataService.GetAllAdminPokemonDetails();
-                List<Pokemon> pokemonList = this.dataService.GetObjects<Pokemon>("PokedexNumber, Id", "EggCycle, GenderRatio, Classification, Game, Game.Generation, ExperienceGrowth, Form");
-                List<int> pokemonIds = pokemonList.ConvertAll(x => x.Id);
+                AllPokemon = allAdminPokemon,
+                AppConfig = this.appConfig,
+                GenerationId = this.dataService.GetObjects<Generation>().Last().Id,
+            };
 
-                DropdownViewModel dropdownViewModel = new DropdownViewModel()
-                {
-                    AllPokemon = allAdminPokemon,
-                    AppConfig = this.appConfig,
-                    GenerationId = this.dataService.GetObjects<Generation>().Last().Id,
-                };
-
-                AdminGenerationTableViewModel model = new AdminGenerationTableViewModel()
-                {
-                    PokemonList = new List<Pokemon>(),
-                    DropdownViewModel = dropdownViewModel,
-                    AppConfig = this.appConfig,
-                };
-
-                foreach (var id in pokemonIds)
-                {
-                    try
-                    {
-                        webRequest = (HttpWebRequest)HttpWebRequest.Create(string.Concat(this.appConfig.WebUrl, this.appConfig.HomePokemonImageUrl, id, ".png"));
-                        imageRequest = (HttpWebResponse)webRequest.GetResponse();
-                        if (imageRequest.StatusCode != HttpStatusCode.OK)
-                        {
-                            model.PokemonList.Add(pokemonList.Find(x => x.Id == id));
-                        }
-                    }
-                    catch
-                    {
-                        model.PokemonList.Add(pokemonList.Find(x => x.Id == id));
-                    }
-                }
-
-                model.PokemonList.Where(x => x.IsAltForm).ToList().ForEach(x => x.Name = x.NameWithForm);
-
-                return this.PartialView("_FillAdminGenerationTable", model);
-            }
-            else
+            AdminGenerationTableViewModel model = new AdminGenerationTableViewModel()
             {
-                return this.RedirectToAction("Index", "Home");
-            }
+                PokemonList = pokemonList,
+                DropdownViewModel = dropdownViewModel,
+                AppConfig = this.appConfig,
+            };
+
+            model.PokemonList.Where(x => x.IsAltForm).ToList().ForEach(x => x.Name = x.NameWithForm);
+
+            return this.PartialView("_FillAdminGenerationTable", model);
         }
 
         /// <summary>
@@ -201,53 +174,26 @@ namespace Pokedex.Controllers
         [Route("get-missing-shiny-pokemon-admin")]
         public IActionResult GetMissingShinyPokemonAdmin()
         {
-            if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            AllAdminPokemonViewModel allAdminPokemon = this.dataService.GetAllAdminPokemonDetails();
+            List<Pokemon> pokemonList = this.dataService.GetObjects<Pokemon>("PokedexNumber, Id", "EggCycle, GenderRatio, Classification, Game, Game.Generation, ExperienceGrowth, Form", "HasShinyArtwork", false);
+
+            DropdownViewModel dropdownViewModel = new DropdownViewModel()
             {
-                HttpWebRequest webRequest;
-                HttpWebResponse imageRequest;
-                AllAdminPokemonViewModel allAdminPokemon = this.dataService.GetAllAdminPokemonDetails();
-                List<Pokemon> pokemonList = this.dataService.GetObjects<Pokemon>("PokedexNumber, Id", "EggCycle, GenderRatio, Classification, Game, Game.Generation, ExperienceGrowth, Form");
-                List<int> pokemonIds = pokemonList.ConvertAll(x => x.Id);
+                AllPokemon = allAdminPokemon,
+                AppConfig = this.appConfig,
+                GenerationId = this.dataService.GetObjects<Generation>().Last().Id,
+            };
 
-                DropdownViewModel dropdownViewModel = new DropdownViewModel()
-                {
-                    AllPokemon = allAdminPokemon,
-                    AppConfig = this.appConfig,
-                    GenerationId = this.dataService.GetObjects<Generation>().Last().Id,
-                };
-
-                AdminGenerationTableViewModel model = new AdminGenerationTableViewModel()
-                {
-                    PokemonList = new List<Pokemon>(),
-                    DropdownViewModel = dropdownViewModel,
-                    AppConfig = this.appConfig,
-                };
-
-                foreach (var id in pokemonIds)
-                {
-                    try
-                    {
-                        webRequest = (HttpWebRequest)WebRequest.Create(string.Concat(this.appConfig.WebUrl, this.appConfig.ShinyPokemonImageUrl, id, ".png"));
-                        imageRequest = (HttpWebResponse)webRequest.GetResponse();
-                        if (imageRequest.StatusCode != HttpStatusCode.OK)
-                        {
-                            model.PokemonList.Add(pokemonList.Find(x => x.Id == id));
-                        }
-                    }
-                    catch
-                    {
-                        model.PokemonList.Add(pokemonList.Find(x => x.Id == id));
-                    }
-                }
-
-                model.PokemonList.Where(x => x.IsAltForm).ToList().ForEach(x => x.Name = x.NameWithForm);
-
-                return this.PartialView("_FillAdminGenerationTable", model);
-            }
-            else
+            AdminGenerationTableViewModel model = new AdminGenerationTableViewModel()
             {
-                return this.RedirectToAction("Index", "Home");
-            }
+                PokemonList = pokemonList,
+                DropdownViewModel = dropdownViewModel,
+                AppConfig = this.appConfig,
+            };
+
+            model.PokemonList.Where(x => x.IsAltForm).ToList().ForEach(x => x.Name = x.NameWithForm);
+
+            return this.PartialView("_FillAdminGenerationTable", model);
         }
 
         /// <summary>
