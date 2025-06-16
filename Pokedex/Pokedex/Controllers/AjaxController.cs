@@ -1272,14 +1272,14 @@ namespace Pokedex.Controllers
         /// Gets the available genders for a pokemon.
         /// </summary>
         /// <param name="pokemonId">The pokemon's id.</param>
-        /// <param name="useCase">The use case of this method.</param>
+        /// <param name="isShinyHunt">Whether or not this method is used for a shiny hunt.</param>
         /// <returns>A list of available genders.</returns>
         [Route("get-pokemon-genders")]
-        public List<string> GetPokemonGenders(int pokemonId, string useCase)
+        public List<string> GetPokemonGenders(int pokemonId, bool isShinyHunt)
         {
             if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
-                return this.dataService.GrabGenders(pokemonId, useCase);
+                return this.dataService.GrabGenders(pokemonId, isShinyHunt);
             }
 
             return null;
@@ -2568,19 +2568,12 @@ namespace Pokedex.Controllers
             if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest" && this.User.Identity.Name != null)
             {
                 User user = this.dataService.GetCurrentUser(this.User);
-                switch (altFormToggle)
+                user.ShowShinyAltForms = altFormToggle switch
                 {
-                    case "hide":
-                        user.ShowShinyAltForms = false;
-                        break;
-                    case "show":
-                        user.ShowShinyAltForms = true;
-                        break;
-                    default:
-                        user.ShowShinyAltForms = false;
-                        break;
-                }
-
+                    "hide" => false,
+                    "show" => true,
+                    _ => false,
+                };
                 this.dataService.UpdateObject<User>(user);
             }
         }
@@ -2595,19 +2588,12 @@ namespace Pokedex.Controllers
             if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest" && this.User.Identity.Name != null)
             {
                 User user = this.dataService.GetCurrentUser(this.User);
-                switch (genderDifferenceToggle)
+                user.HideShinyGenderDifferences = genderDifferenceToggle switch
                 {
-                    case "hide":
-                        user.HideShinyGenderDifferences = true;
-                        break;
-                    case "show":
-                        user.HideShinyGenderDifferences = false;
-                        break;
-                    default:
-                        user.HideShinyGenderDifferences = false;
-                        break;
-                }
-
+                    "hide" => true,
+                    "show" => false,
+                    _ => false,
+                };
                 this.dataService.UpdateObject<User>(user);
             }
         }
@@ -2622,19 +2608,12 @@ namespace Pokedex.Controllers
             if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest" && this.User.Identity.Name != null)
             {
                 User user = this.dataService.GetCurrentUser(this.User);
-                switch (capturedShiniesToggle)
+                user.HideCapturedShinyPokemon = capturedShiniesToggle switch
                 {
-                    case "hide":
-                        user.HideCapturedShinyPokemon = true;
-                        break;
-                    case "show":
-                        user.HideCapturedShinyPokemon = false;
-                        break;
-                    default:
-                        user.HideCapturedShinyPokemon = false;
-                        break;
-                }
-
+                    "hide" => true,
+                    "show" => false,
+                    _ => false,
+                };
                 this.dataService.UpdateObject<User>(user);
             }
         }
@@ -2649,31 +2628,21 @@ namespace Pokedex.Controllers
         {
             if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest" && this.User.Identity.Name != null)
             {
-                // Embody Aspect's internal id.
-                Ability teraAbility = this.dataService.GetObjectByPropertyValue<Ability>("Id", 314);
-                switch (pokemonId)
+                int abilityId = pokemonId switch
                 {
                     // Regular Ogerpon's internal id.
-                    case 1768:
-                        // Uses default description.
-                        break;
+                    1768 => 314,
 
                     // Wellspring Mask Ogerpon's internal id.
-                    case 1879:
-                        teraAbility.Description = "The Pokémon's heart fills with memories, causing the Wellspring Mask to shine and the Pokémon's Sp. Def stat to be boosted.";
-                        break;
+                    1879 => 319,
 
                     // Hearthflame Mask Ogerpon's internal id.
-                    case 1880:
-
-                        teraAbility.Description = "The Pokémon's heart fills with memories, causing the Hearthflame Mask to shine and the Pokémon's Attack stat to be boosted.";
-                        break;
+                    1880 => 320,
 
                     // Cornerstone Mask Ogerpon's internal id.
-                    case 1881:
-                        teraAbility.Description = "The Pokémon's heart fills with memories, causing the Cornerstone Mask to shine and the Pokémon's Defense stat to be boosted.";
-                        break;
-                }
+                    1881 => 321,
+                };
+                Ability teraAbility = this.dataService.GetObjectByPropertyValue<Ability>("Id", abilityId);
 
                 return teraAbility;
             }

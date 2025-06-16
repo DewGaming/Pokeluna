@@ -40,7 +40,7 @@ var pokemonList = [], grabGames = function (gameId, pokemonIds) {
     $.ajax({
         url: '/get-pokemon-genders/',
         method: "POST",
-        data: { 'pokemonId': $('#PokemonId').val(), 'useCase': 'shinyHunt' }
+        data: { 'pokemonId': $('#PokemonId').val(), 'isShinyHunt': true }
     })
         .done(function (data) {
             $('#Gender').empty();

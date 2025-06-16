@@ -272,12 +272,12 @@ namespace Pokedex.Controllers
             if (shinyHunt.PokemonId == null)
             {
                 pokemon = pokemonList.First();
-                genders = this.dataService.GrabGenders(pokemonList.First().Id, "shinyHunt");
+                genders = this.dataService.GrabGenders(pokemonList.First().Id, true);
             }
             else
             {
                 pokemon = this.dataService.GetObjectByPropertyValue<Pokemon>("Id", shinyHunt.PokemonId);
-                genders = this.dataService.GrabGenders(shinyHunt.PokemonId, "shinyHunt");
+                genders = this.dataService.GrabGenders(shinyHunt.PokemonId, true);
             }
 
             shinyHunt.TotalEncounters += shinyHunt.CurrentPhaseEncounters;
@@ -346,12 +346,12 @@ namespace Pokedex.Controllers
             if (shinyHunt.PokemonId == null)
             {
                 pokemon = pokemonList.First();
-                genders = this.dataService.GrabGenders(pokemonList.First().Id, "shinyHunt");
+                genders = this.dataService.GrabGenders(pokemonList.First().Id, true);
             }
             else
             {
                 pokemon = this.dataService.GetObjectByPropertyValue<Pokemon>("Id", (int)shinyHunt.PokemonId);
-                genders = this.dataService.GrabGenders(shinyHunt.PokemonId, "shinyHunt");
+                genders = this.dataService.GrabGenders(shinyHunt.PokemonId, true);
             }
 
             CompleteShinyHuntViewModel model = new CompleteShinyHuntViewModel(shinyHunt)
@@ -412,7 +412,7 @@ namespace Pokedex.Controllers
         public IActionResult EditIncompleteShinyHunt(int shinyHuntId)
         {
             ShinyHunt shinyHunt = this.dataService.GetObjectByPropertyValue<ShinyHunt>("Id", shinyHuntId, "Pokemon");
-            List<string> genders = this.dataService.GrabGenders(shinyHunt.PokemonId, "shinyHunt");
+            List<string> genders = this.dataService.GrabGenders(shinyHunt.PokemonId, true);
             if (genders.First() == string.Empty)
             {
                 genders.Remove(string.Empty);
@@ -455,7 +455,7 @@ namespace Pokedex.Controllers
             if (!this.ModelState.IsValid)
             {
                 ShinyHunt oldShinyHunt = this.dataService.GetObjectByPropertyValue<ShinyHunt>("Id", shinyHunt.Id, "Pokemon");
-                List<string> genders = this.dataService.GrabGenders(oldShinyHunt.PokemonId, "shinyHunt");
+                List<string> genders = this.dataService.GrabGenders(oldShinyHunt.PokemonId, true);
                 if (genders.First() == string.Empty)
                 {
                     genders.Remove(string.Empty);
@@ -512,7 +512,7 @@ namespace Pokedex.Controllers
                 AllPokeballs = this.dataService.GetPokeballs(shinyHunt.GameId, shinyHunt.HuntingMethodId, this.User, this.appConfig),
                 AllMarks = this.dataService.GetMarks(shinyHunt.GameId),
                 AllSweets = this.dataService.GetObjects<Sweet>(),
-                AllGenders = this.dataService.GrabGenders(shinyHunt.PokemonId, "shinyHunt"),
+                AllGenders = this.dataService.GrabGenders(shinyHunt.PokemonId, true),
                 AppConfig = this.appConfig,
             };
 
@@ -532,7 +532,7 @@ namespace Pokedex.Controllers
             {
                 ShinyHunt oldShinyHunt = this.dataService.GetObjectByPropertyValue<ShinyHunt>("Id", shinyHunt.Id, "Pokemon, Game");
                 List<Game> gamesList = this.dataService.GetShinyHuntGames(oldShinyHunt.PokemonId);
-                List<string> genders = this.dataService.GrabGenders(oldShinyHunt.PokemonId, "shinyHunt");
+                List<string> genders = this.dataService.GrabGenders(oldShinyHunt.PokemonId, true);
 
                 EditShinyHuntViewModel model = new EditShinyHuntViewModel(oldShinyHunt)
                 {

@@ -1106,14 +1106,14 @@ namespace Pokedex
             {
                 Game game = this.GetObjectByPropertyValue<Game>("Id", gameId);
                 HuntingMethod huntingMethod = this.GetObjectByPropertyValue<HuntingMethod>("Id", huntingMethodId);
-                List<Pokeball> selectablePokeballs = this.GetObjects<PokeballGameDetail>("Pokeball.Name", "Pokeball", "GameId", gameId).Select(x => x.Pokeball).ToList();
+                List<Pokeball> selectablePokeballs = new List<Pokeball>();
                 switch (huntingMethod.Name)
                 {
                     case "Egg Hatching":
                     case "Masuda Method":
                         if (game.GenerationId <= 5)
                         {
-                            selectablePokeballs = selectablePokeballs.Where(x => x.Id == 1).ToList();
+                            selectablePokeballs = this.GetObjects<Pokeball>(whereProperty: "Id", wherePropertyValue: 1);
                         }
 
                         break;
@@ -1121,13 +1121,16 @@ namespace Pokedex
                     case "HOME Pokedex Completion":
                         if (game.GenerationId <= 3)
                         {
-                            selectablePokeballs = selectablePokeballs.Where(x => x.Id == 1).ToList();
+                            selectablePokeballs = this.GetObjects<Pokeball>(whereProperty: "Id", wherePropertyValue: 1);
                         }
                         else
                         {
                             selectablePokeballs = this.GetObjects<Pokeball>(whereProperty: "Id", wherePropertyValue: 24);
                         }
 
+                        break;
+                    default:
+                        selectablePokeballs = this.GetObjects<PokeballGameDetail>("Pokeball.Name", "Pokeball", "GameId", gameId).Select(x => x.Pokeball).ToList();
                         break;
                 }
 
@@ -1190,9 +1193,9 @@ namespace Pokedex
         /// Creates a list of strings for the available genders of a pokemon.
         /// </summary>
         /// <param name="pokemonId">The pokemon's id.</param>
-        /// <param name="useCase">The use case of this method. Only used to determine what no gender is listed as.</param>
+        /// <param name="isShinyHunt">Whether or not this method is used for a shiny hunt. Only used to determine what no gender is listed as.</param>
         /// <returns>A list of genders in string form.</returns>
-        public List<string> GrabGenders(int? pokemonId, string useCase)
+        public List<string> GrabGenders(int? pokemonId, bool isShinyHunt)
         {
             List<string> genders = new List<string>();
             if (pokemonId == 0)
@@ -1204,7 +1207,7 @@ namespace Pokedex
                 GenderRatio genderRatio = this.GetObjectByPropertyValue<Pokemon>("Id", pokemonId, "EggCycle, GenderRatio, Classification, Game, Game.Generation, ExperienceGrowth").GenderRatio;
                 if (genderRatio.MaleRatio == 0 && genderRatio.FemaleRatio == 0)
                 {
-                    if (useCase == "shinyHunt")
+                    if (isShinyHunt)
                     {
                         genders.Add("Gender Unknown");
                     }
