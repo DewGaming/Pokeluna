@@ -56,7 +56,7 @@ namespace Pokedex.DataAccess.Models
         {
             get
             {
-                if (this.IsAltForm)
+                if (this.IsAltForm && this.Form != null)
                 {
                     return string.Concat(this.Name, " (", this.Form.Name, ")");
                 }

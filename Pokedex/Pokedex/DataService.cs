@@ -325,48 +325,6 @@ namespace Pokedex
 
             HttpWebRequest webRequest;
             HttpWebResponse imageRequest;
-            try
-            {
-                if (pokemon.HasShinyArtwork)
-                {
-                    pokemonViewModel.HasShiny = true;
-                }
-                else
-                {
-                    webRequest = (HttpWebRequest)WebRequest.Create(string.Concat(appConfig.WebUrl, appConfig.ShinyPokemonImageUrl, pokemon.Id, ".png"));
-                    imageRequest = (HttpWebResponse)webRequest.GetResponse();
-                    if (imageRequest.StatusCode == HttpStatusCode.OK)
-                    {
-                        pokemonViewModel.HasShiny = true;
-                        this.UpdateImageBools(pokemon.Id, ImageType.Shiny);
-                    }
-                }
-            }
-            catch
-            {
-            }
-
-            try
-            {
-                if (pokemon.HasHomeArtwork)
-                {
-                    pokemonViewModel.HasHome = true;
-                }
-                else
-                {
-                    webRequest = (HttpWebRequest)WebRequest.Create(string.Concat(appConfig.WebUrl, appConfig.HomePokemonImageUrl, pokemon.Id, ".png"));
-                    imageRequest = (HttpWebResponse)webRequest.GetResponse();
-                    if (imageRequest.StatusCode == HttpStatusCode.OK)
-                    {
-                        pokemonViewModel.HasHome = true;
-                        this.UpdateImageBools(pokemon.Id, ImageType.Home);
-                    }
-                }
-            }
-            catch
-            {
-            }
-
             if (pokemon.HasGenderDifference)
             {
                 // Female Gender Difference Check
@@ -812,7 +770,7 @@ namespace Pokedex
                         }
                         else
                         {
-                            commentBody = "Unknown error during the pokemon team's deletion.";
+                            commentBody = "Unknown error during the pokemon team detail's deletion.";
                         }
 
                         commentBody = string.Concat(commentBody, " - Deleted Team Id: {", id, "}");
