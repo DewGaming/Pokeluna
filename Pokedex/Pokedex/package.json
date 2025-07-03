@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "copyfiles": "^2.4.1",
-    "npm": "^11.4.1",
+    "npm": "^11.4.2",
     "npm-check-updates": "^18.0.1",
     "rimraf": "^6.0.1",
     "set-value": "^4.1.0",
