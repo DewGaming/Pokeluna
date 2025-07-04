@@ -59,7 +59,38 @@ var checkTypings = function () {
         $('.pokemonWithTyping').css('display', 'none');
         $('.effectivenessChart').css('display', 'none');
         $('.pokemonList').empty();
-        $('.pokemonList').load('/get-pokemon-by-typing/', { 'primaryTypeId': $('.primaryList > select').val(), 'secondaryTypeId': $('.secondaryList > select').val(), 'gameId': $('.gameList > select').val(), 'regionalDexId': $('.regionalDexList > select').val() }, function () {
+        $('.pokemonList').load('/get-pokemon-by-typing/', { 'primaryTypeId': $('.primaryList > select').val(), 'secondaryTypeId': $('.secondaryList > select').val(), 'gameId': $('.gameList > select').val(), 'regionalDexId': $('.regionalDexList > select').val(), 'specificTyping': false }, function () {
+            if ($('.pokemonList').children().length > 0) {
+                $('.pokemonWithTyping').css('display', 'block');
+            }
+            else {
+                $('.pokemonWithTyping').css('display', 'none');
+            }
+
+            if ($('.secondaryList > select').val() == '') {
+                $('.effectivenessChart').css('display', 'flex');
+            }
+
+            setTimeout(function () {
+                $(".overlay").fadeOut(300);
+            });
+        });
+    }
+    else {
+        $('.pokemonWithTyping').css('display', 'none');
+
+        setTimeout(function () {
+            $(".overlay").fadeOut(300);
+        });
+    }
+}, grabPokemonSpecificTyping = function () {
+    checkTypings();
+    $(".overlay").fadeIn(300);
+    if ($('.primaryList > select').val() != '') {
+        $('.pokemonWithTyping').css('display', 'none');
+        $('.effectivenessChart').css('display', 'none');
+        $('.pokemonList').empty();
+        $('.pokemonList').load('/get-pokemon-by-typing/', { 'primaryTypeId': $('.primaryList > select').val(), 'secondaryTypeId': $('.secondaryList > select').val(), 'gameId': $('.gameList > select').val(), 'regionalDexId': $('.regionalDexList > select').val(), 'specificTyping': true }, function () {
             if ($('.pokemonList').children().length > 0) {
                 $('.pokemonWithTyping').css('display', 'block');
             }

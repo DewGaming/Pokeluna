@@ -1718,9 +1718,10 @@ namespace Pokedex.Controllers
         /// <param name="secondaryTypeId">The secondary type's id.</param>
         /// <param name="gameId">The game used to specify the type chart.</param>
         /// <param name="regionalDexId">The game's regional dex used to specify the type chart.</param>
+        /// <param name="specificTyping">The game's regional dex used to specify the type chart.</param>
         /// <returns>The fill typing evaluator shared view.</returns>
         [Route("get-pokemon-by-typing")]
-        public IActionResult GetPokemonByTyping(int primaryTypeId, int secondaryTypeId, int gameId, int regionalDexId)
+        public IActionResult GetPokemonByTyping(int primaryTypeId, int secondaryTypeId, int gameId, int regionalDexId, bool specificTyping)
         {
             if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
@@ -1740,7 +1741,7 @@ namespace Pokedex.Controllers
                     };
                 }
 
-                List<PokemonTypeDetail> typingList = this.GetAllPokemonWithSpecificTypes(primaryTypeId, secondaryTypeId, game, regionalDexId);
+                List<PokemonTypeDetail> typingList = this.GetAllPokemonWithSpecificTypes(primaryTypeId, secondaryTypeId, game, regionalDexId, specificTyping);
                 List<Pokemon> pokemonList = typingList.ConvertAll(x => x.Pokemon);
 
                 TypingEvaluatorViewModel model = new TypingEvaluatorViewModel()
@@ -3384,7 +3385,7 @@ namespace Pokedex.Controllers
             }
         }
 
-        private List<PokemonTypeDetail> GetAllPokemonWithSpecificTypes(int primaryTypeId, int secondaryTypeId, Game game, int regionalDexId)
+        private List<PokemonTypeDetail> GetAllPokemonWithSpecificTypes(int primaryTypeId, int secondaryTypeId, Game game, int regionalDexId, bool specificTyping)
         {
             List<PokemonTypeDetail> pokemonList = this.dataService.GetObjects<PokemonTypeDetail>("GenerationId", "Pokemon, Pokemon.Game, Pokemon.Form, PrimaryType, SecondaryType").Where(x => x.GenerationId <= game.GenerationId).GroupBy(x => new { x.PokemonId }).Select(x => x.LastOrDefault()).ToList();
             if (regionalDexId != 0)
@@ -3400,7 +3401,14 @@ namespace Pokedex.Controllers
 
             if (secondaryTypeId != 0 && secondaryTypeId != 100)
             {
-                pokemonList = pokemonList.Where(x => (x.PrimaryTypeId == primaryTypeId && x.SecondaryTypeId == secondaryTypeId) || (x.PrimaryTypeId == secondaryTypeId && x.SecondaryTypeId == primaryTypeId)).ToList();
+                if (specificTyping)
+                {
+                    pokemonList = pokemonList.Where(x => x.PrimaryTypeId == primaryTypeId && x.SecondaryTypeId == secondaryTypeId).ToList();
+                }
+                else
+                {
+                    pokemonList = pokemonList.Where(x => (x.PrimaryTypeId == primaryTypeId && x.SecondaryTypeId == secondaryTypeId) || (x.PrimaryTypeId == secondaryTypeId && x.SecondaryTypeId == primaryTypeId)).ToList();
+                }
             }
             else if (secondaryTypeId == 100)
             {
