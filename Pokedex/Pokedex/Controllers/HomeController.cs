@@ -386,7 +386,7 @@ namespace Pokedex.Controllers
 
                     if (generationId == 0)
                     {
-                        generationId = this.dataService.GetObjects<PokemonGameDetail>("Game.GenerationId, GameId, Id", "Pokemon, Pokemon.Game, Game", "PokemonId", pokemonId).Where(x => x.Game.ReleaseDate <= DateTime.UtcNow).Last().Game.GenerationId;
+                        generationId = this.dataService.GetObjects<PokemonGameDetail>("Game.GenerationId, GameId, Id", "Pokemon, Pokemon.Game, Game", "PokemonId", pokemonId).Last().Game.GenerationId;
                     }
 
                     List<PokemonViewModel> pokemonDetailList = new List<PokemonViewModel>
@@ -609,8 +609,7 @@ namespace Pokedex.Controllers
             this.dataService.AddPageView("Error Page", this.User.IsInRole("Owner"));
             Exception error = this.HttpContext.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>().Error;
             StackTrace stackTrace = new StackTrace(error);
-            StackFrame location = stackTrace.GetFrame(0);
-            MethodBase sourceMethod = location.GetMethod();
+            StackFrame[] stackFrames = stackTrace.GetFrames();
 
             if (!this.User.IsInRole("Owner") && error != null)
             {
@@ -625,7 +624,10 @@ namespace Pokedex.Controllers
                     comment.Name = string.Concat(comment.Name, " (", error.InnerException.Message, ")");
                 }
 
-                comment.Name = string.Concat(comment.Name, " Method: ", sourceMethod.Name, ", Class: ", sourceMethod.DeclaringType.FullName, ", Location: ", location.GetILOffset());
+                foreach (StackFrame sf in stackFrames)
+                {
+                    comment.Name = string.Concat(comment.Name, "\r\nMethod: ", sf.GetMethod().Name, ", Line Number: ", sf.GetFileLineNumber());
+                }
 
                 if (this.User.Identity.Name != null)
                 {

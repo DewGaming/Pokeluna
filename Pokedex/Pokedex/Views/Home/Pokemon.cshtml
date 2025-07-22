@@ -705,7 +705,7 @@ Description: @item.Abilities.OrderByDescending(x => x.GenerationId).First(x => x
                                 </tr>
                             </table>
                         </div>
-                        @if(g == 9 || pokemonName == "Arceus" || pokemonName == "Silvally")
+                        @if((g == 9 && item.GamesAvailableIn.Exists(x => x.Id == 41 || x.Id == 42)) || pokemonName == "Arceus" || pokemonName == "Silvally")
                         {
                             <div class="teraTypingList">
                                 <label for="TeraTypes">
