@@ -14,6 +14,9 @@
         @Html.HiddenFor(x => x.Pokemon.Id)
         @Html.HiddenFor(x => x.Pokemon.OriginalFormId)
         @Html.HiddenFor(x => x.Pokemon.FormId)
+        @Html.HiddenFor(x => x.Pokemon.HasGenderDifference)
+        @Html.HiddenFor(x => x.Pokemon.HasHomeArtwork)
+        @Html.HiddenFor(x => x.Pokemon.HasShinyArtwork)
         
         <div class="form-group row">
             @Html.LabelFor(x => x.Pokemon.PokedexNumber, new { @class = "col-md-2" })
