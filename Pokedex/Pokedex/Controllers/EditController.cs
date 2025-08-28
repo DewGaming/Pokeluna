@@ -1941,10 +1941,10 @@ namespace Pokedex.Controllers
         [Route("edit_alternate_form/{pokemonId:int}")]
         public IActionResult AltFormsForm(int pokemonId)
         {
-            PokemonFormDetail pokemonForm = this.dataService.GetObjectByPropertyValue<PokemonFormDetail>("AltFormPokemonId", pokemonId, "AltFormPokemon, OriginalPokemon, Form");
+            Pokemon pokemon = this.dataService.GetObjectByPropertyValue<Pokemon>("Id", pokemonId);
             AlternateFormsFormViewModel model = new AlternateFormsFormViewModel()
             {
-                PokemonFormDetail = pokemonForm,
+                Pokemon = pokemon,
                 AllForms = this.dataService.GetObjects<Form>("Name"),
             };
 
@@ -1954,23 +1954,24 @@ namespace Pokedex.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("edit_alternate_form/{pokemonId:int}")]
-        public IActionResult AltFormsForm(PokemonFormDetail pokemonFormDetail)
+        public IActionResult AltFormsForm(AlternateFormsFormViewModel altFormsForm)
         {
+            Pokemon updatedPokemon = this.dataService.GetObjectByPropertyValue<Pokemon>("Id", altFormsForm.Pokemon.Id);
             if (!this.ModelState.IsValid)
             {
-                PokemonFormDetail pokemonForm = this.dataService.GetObjectByPropertyValue<PokemonFormDetail>("AltFormPokemonId", pokemonFormDetail.AltFormPokemonId, "AltFormPokemon, OriginalPokemon, Form");
                 AlternateFormsFormViewModel model = new AlternateFormsFormViewModel()
                 {
-                    PokemonFormDetail = pokemonForm,
+                    Pokemon = updatedPokemon,
                     AllForms = this.dataService.GetObjects<Form>("Name"),
                 };
 
                 return this.View(model);
             }
 
-            this.dataService.UpdateObject(pokemonFormDetail);
+            updatedPokemon.FormId = altFormsForm.Pokemon.FormId;
+            this.dataService.UpdateObject(updatedPokemon);
 
-            return this.RedirectToAction("AltForms", "Edit", new { pokemonId = pokemonFormDetail.OriginalPokemonId });
+            return this.RedirectToAction("AltForms", "Edit", new { pokemonId = updatedPokemon.OriginalFormId });
         }
 
         private PokemonCaptureRateDetail GetPokemonWithCaptureRatesFromGenerationId(int pokemonId, int generationId)

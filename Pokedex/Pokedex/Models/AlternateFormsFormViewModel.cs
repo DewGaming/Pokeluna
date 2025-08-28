@@ -9,9 +9,9 @@ namespace Pokedex.Models
     public class AlternateFormsFormViewModel
     {
         /// <summary>
-        /// Gets or sets the pokemon form detail.
+        /// Gets or sets the alternate form pokemon.
         /// </summary>
-        public PokemonFormDetail PokemonFormDetail { get; set; }
+        public Pokemon Pokemon { get; set; }
 
         /// <summary>
         /// Gets or sets a list of all forms.

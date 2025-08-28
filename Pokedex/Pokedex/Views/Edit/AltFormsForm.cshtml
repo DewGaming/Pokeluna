@@ -8,16 +8,15 @@
     {      
         @Html.AntiForgeryToken()
           
-        @Html.HiddenFor(x => x.PokemonFormDetail.Id)
-        @Html.HiddenFor(x => x.PokemonFormDetail.OriginalPokemonId)
-        @Html.HiddenFor(x => x.PokemonFormDetail.AltFormPokemonId)
+        @Html.HiddenFor(x => x.Pokemon.Id)
+        @Html.HiddenFor(x => x.Pokemon.Name)
 
         @Html.ValidationSummary()
 
         <div class="form-group row">
-            @Html.LabelFor(x => x.PokemonFormDetail.FormId, new { @class = "col-md-2" })
-            @Html.DropDownListFor(x => x.PokemonFormDetail.FormId, new SelectList(Model.AllForms, "Id", "Name"), new { @class = "form-control col-md-8" })
-            @Html.ValidationMessageFor(x => x.PokemonFormDetail.FormId)
+            @Html.LabelFor(x => x.Pokemon.FormId, new { @class = "col-md-2" })
+            @Html.DropDownListFor(x => x.Pokemon.FormId, new SelectList(Model.AllForms, "Id", "Name"), new { @class = "form-control col-md-8" })
+            @Html.ValidationMessageFor(x => x.Pokemon.FormId)
         </div>
 
         <p>
