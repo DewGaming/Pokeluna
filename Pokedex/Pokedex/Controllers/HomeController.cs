@@ -609,7 +609,8 @@ namespace Pokedex.Controllers
             this.dataService.AddPageView("Error Page", this.User.IsInRole("Owner"));
             Exception error = this.HttpContext.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>().Error;
             StackTrace stackTrace = new StackTrace(error);
-            StackFrame[] stackFrames = stackTrace.GetFrames();
+            StackFrame location = stackTrace.GetFrame(0);
+            MethodBase sourceMethod = location.GetMethod();
 
             if (!this.User.IsInRole("Owner") && error != null)
             {
@@ -624,10 +625,7 @@ namespace Pokedex.Controllers
                     comment.Name = string.Concat(comment.Name, " (", error.InnerException.Message, ")");
                 }
 
-                foreach (StackFrame sf in stackFrames)
-                {
-                    comment.Name = string.Concat(comment.Name, "\r\nMethod: ", sf.GetMethod().Name, ", Line Number: ", sf.GetFileLineNumber());
-                }
+                comment.Name = string.Concat(comment.Name, " Method: ", sourceMethod.Name, ", Class: ", sourceMethod.DeclaringType.FullName, ", Location: ", location.GetILOffset());
 
                 if (this.User.Identity.Name != null)
                 {
