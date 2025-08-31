@@ -372,8 +372,14 @@ namespace Pokedex.Controllers
                 else
                 {
                     pokemon = pokemonList.Find(x => x.Name.ToString().Equals(name, StringComparison.OrdinalIgnoreCase));
-                    pokemon ??= pokemonList.First();
-                    pokemonId = pokemon.Id;
+                    if (pokemon == null)
+                    {
+                        return this.RedirectToAction("SearchRedirect", "Home", new { search = name });
+                    }
+                    else
+                    {
+                        pokemonId = pokemon.Id;
+                    }
                 }
 
                 if (pokemon == null)
