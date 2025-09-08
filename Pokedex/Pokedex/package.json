@@ -2,7 +2,7 @@
   "dependencies": {
     "copyfiles": "^2.4.1",
     "npm": "^11.5.2",
-    "npm-check-updates": "^18.0.3",
+    "npm-check-updates": "^18.1.0",
     "rimraf": "^6.0.1",
     "set-value": "^4.1.0",
     "uglifyjs-folder": "^3.3.0"
