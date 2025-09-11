@@ -197,6 +197,8 @@ namespace Pokedex.Controllers
                 model.AllGames = new List<Game>();
             }
 
+            this.dataService.AddPageView("Pokemon Teams Page", this.User.IsInRole("Owner"));
+
             return this.View(model);
         }
 
@@ -294,7 +296,7 @@ namespace Pokedex.Controllers
                 }
                 else if (shinyHunts.Count(x => x.Game.Name == "Leaf Green") > 0)
                 {
-                        gamesList.Remove(gamesList.Find(x => x.Name == "Fire Red"));
+                    gamesList.Remove(gamesList.Find(x => x.Name == "Fire Red"));
                 }
 
                 List<Game> edittedGamesList = new List<Game>();
