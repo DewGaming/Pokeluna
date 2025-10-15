@@ -421,7 +421,7 @@ namespace Pokedex.Controllers
         public IActionResult RegionalDexes()
         {
             List<RegionalDex> regionalDexes = this.dataService.GetObjects<RegionalDex>("Game.ReleaseDate, Id", "Game");
-            List<Game> allGames = this.dataService.GetGamesGroupedByReleaseDate();
+            List<Game> allGames = this.dataService.GetGamesGroupedByReleaseDate(true);
             List<RegionalDexViewModel> model = new List<RegionalDexViewModel>();
             foreach (var dex in regionalDexes)
             {

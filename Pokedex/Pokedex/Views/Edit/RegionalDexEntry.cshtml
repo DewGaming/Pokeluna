@@ -51,9 +51,9 @@
                     {
                         var entryFound = @Model.RegionalDexEntries.Find(x => x.PokemonId == p.Id && x.RegionalDexId == @Model.RegionalDex.Id);
                         <li>
-                            <input class="regionalDexEntryOption" id="@(p.Name)" type="checkbox" value="@p.Id" @(entryFound != null ? "checked=checked" : "") />
-                            <label for="@(p.Name)" class="generatorOptionTitle">
-                                <span>@('#')@p.PokedexNumber.ToString().PadLeft(4, '0') @p.Name</span>
+                            <input class="regionalDexEntryOption" id="@(p.NameWithForm)" type="checkbox" value="@p.Id" @(entryFound != null ? "checked=checked" : "") />
+                            <label for="@(p.NameWithForm)" class="generatorOptionTitle">
+                                <span>@('#')@p.PokedexNumber.ToString().PadLeft(4, '0') @p.NameWithForm</span>
                             </label>
                         </li>
                     }
@@ -66,7 +66,7 @@
             @foreach (var e in Model.RegionalDexEntries.Where(x => x.RegionalDexId == @Model.RegionalDex.Id).OrderBy(x => x.RegionalPokedexNumber).DistinctBy(x => x.RegionalPokedexNumber))
             {
                 <li>
-                    <span id="@(e.Pokemon.Name)">@e.Pokemon.Name</span>
+                    <span id="@(e.Pokemon.NameWithForm)">@e.Pokemon.NameWithForm</span>
                 </li>
             }
         </ul>

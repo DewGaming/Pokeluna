@@ -1008,12 +1008,18 @@ namespace Pokedex
         /// <summary>
         /// Gets the list of games grouped by release date.
         /// </summary>
+        /// <param name="includeUnreleasdGames">Whether or not unreleased games should be included in list. Default is false.</param>
         /// <returns>The list of games grouped by release date.</returns>
-        public List<Game> GetGamesGroupedByReleaseDate()
+        public List<Game> GetGamesGroupedByReleaseDate(bool includeUnreleasdGames = false)
         {
             List<Game> gamesList = new List<Game>();
             List<Game> selectableGames = new List<Game>();
-            gamesList = this.GetObjects<Game>("ReleaseDate, Id").Where(x => x.ReleaseDate <= DateTime.Now).ToList();
+            gamesList = this.GetObjects<Game>("ReleaseDate, Id");
+            if (!includeUnreleasdGames)
+            {
+                gamesList = gamesList.Where(x => x.ReleaseDate <= DateTime.Now).ToList();
+            }
+
             List<Game> uniqueGames = gamesList.OrderBy(x => x.ReleaseDate).ThenBy(x => x.Id).DistinctBy(y => y.ReleaseDate).ToList();
             for (var i = 0; i < uniqueGames.Count; i++)
             {

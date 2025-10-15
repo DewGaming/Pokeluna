@@ -62,7 +62,7 @@ namespace Pokedex.DataAccess.Models
                 }
                 else
                 {
-                    return string.Empty;
+                    return this.Name;
                 }
             }
         }

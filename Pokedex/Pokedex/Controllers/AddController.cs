@@ -360,7 +360,7 @@ namespace Pokedex.Controllers
         {
             RegionalDexViewModel model = new RegionalDexViewModel()
             {
-                AllGames = this.dataService.GetGamesGroupedByReleaseDate(),
+                AllGames = this.dataService.GetGamesGroupedByReleaseDate(true),
             };
 
             return this.View(model);
@@ -380,7 +380,7 @@ namespace Pokedex.Controllers
             {
                 RegionalDexViewModel model = new RegionalDexViewModel()
                 {
-                    AllGames = this.dataService.GetGamesGroupedByReleaseDate(),
+                    AllGames = this.dataService.GetGamesGroupedByReleaseDate(true),
                 };
 
                 return this.View(model);

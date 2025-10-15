@@ -199,8 +199,9 @@ namespace Pokedex.Controllers
         public IActionResult RegionalDexEntry(int id)
         {
             RegionalDex regionalDex = this.dataService.GetObjectByPropertyValue<RegionalDex>("Id", id);
-            List<Pokemon> availablePokemon = this.dataService.GetObjects<PokemonGameDetail>(includes: "Pokemon, Pokemon.Game, Pokemon.Game.Generation").Where(x => x.GameId == regionalDex.GameId).Select(x => x.Pokemon).ToList();
-            availablePokemon = availablePokemon.DistinctBy(x => x.Name).ToList();
+            List<Pokemon> availablePokemon = this.dataService.GetObjects<PokemonGameDetail>(includes: "Pokemon, Pokemon.Game, Pokemon.Game.Generation, Pokemon.Form").Where(x => x.GameId == regionalDex.GameId).Select(x => x.Pokemon).ToList();
+            availablePokemon = availablePokemon.Where(x => !x.IsAltForm || !x.Form.OnlyDuringBattle).ToList();
+            availablePokemon = availablePokemon.OrderBy(x => x.PokedexNumber).ThenBy(x => x.Id).DistinctBy(x => x.Name).ToList();
 
             EditRegionalDexEntriesViewModel model = new EditRegionalDexEntriesViewModel()
             {
@@ -1537,10 +1538,10 @@ namespace Pokedex.Controllers
         [Route("edit_regional_dex/{id:int}")]
         public IActionResult RegionalDex(int id)
         {
-            RegionalDex nature = this.dataService.GetObjectByPropertyValue<RegionalDex>("Id", id);
-            RegionalDexViewModel model = new RegionalDexViewModel(nature)
+            RegionalDex regionalDex = this.dataService.GetObjectByPropertyValue<RegionalDex>("Id", id);
+            RegionalDexViewModel model = new RegionalDexViewModel(regionalDex)
             {
-                AllGames = this.dataService.GetGamesGroupedByReleaseDate(),
+                AllGames = this.dataService.GetGamesGroupedByReleaseDate(true),
             };
 
             return this.View(model);
@@ -1555,7 +1556,7 @@ namespace Pokedex.Controllers
             {
                 RegionalDexViewModel model = new RegionalDexViewModel(regionalDex)
                 {
-                    AllGames = this.dataService.GetGamesGroupedByReleaseDate(),
+                    AllGames = this.dataService.GetGamesGroupedByReleaseDate(true),
                 };
 
                 return this.View(model);
