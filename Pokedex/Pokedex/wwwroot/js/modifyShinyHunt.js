@@ -157,16 +157,28 @@ var pokemonList = [], grabGames = function (gameId, pokemonIds) {
             }
         });
 }, checkAlpha = function () {
-    if ($('#GameId').val() == 37) {
-        if ($('.alphaCheckbox').hasClass('hide')) {
-            $('.alphaCheckbox').removeClass('hide');
-        }
-    } else {
-        if (!$('.alphaCheckbox').hasClass('hide')) {
-            $('.alphaCheckbox').addClass('hide');
-            $('#IsAlpha').prop('checked', false)
-        }
-    }
+    $.ajax({
+        url: '/check-alphas/',
+        method: "POST",
+        data: { 'gameId': $('#GameId').val() }
+    })
+        .done(function (data) {
+            if (data) {
+                if ($('.alphaCheckbox').hasClass('hide')) {
+                    $('.alphaCheckbox').removeClass('hide');
+                }
+            } else {
+                if (!$('.alphaCheckbox').hasClass('hide')) {
+                    $('.alphaCheckbox').addClass('hide');
+                    $('#IsAlpha').val(0)
+                }
+            }
+        })
+        .fail(function () {
+            if (isLocalhost) {
+                alert("Failed to check alphas!");
+            }
+        });
 }, checkSparklingPower = function () {
     $.ajax({
         url: '/check-sparkling-power/',

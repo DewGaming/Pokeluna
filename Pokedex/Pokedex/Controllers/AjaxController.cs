@@ -1493,6 +1493,24 @@ namespace Pokedex.Controllers
         }
 
         /// <summary>
+        /// Checks to see if alphas can be found.
+        /// </summary>
+        /// <param name="gameId">The game's id.</param>
+        /// <returns>The boolean determining if a sparkling power can be shown.</returns>
+        [Route("check-alphas")]
+        public bool CheckAlpha(int gameId)
+        {
+            if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return this.dataService.GetObjectByPropertyValue<Game>("Id", gameId).AreAlphasAvailable;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Checks to see if sparkling power can be used.
         /// </summary>
         /// <param name="gameId">The game's id.</param>

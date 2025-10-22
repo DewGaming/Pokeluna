@@ -13,6 +13,7 @@
             <th scope="col">Release Date</th>
             <th scope="col">Generation</th>
             <th scope="col">Is Breeding Possible</th>
+            <th scope="col">Are Alphas Available</th>
             <th scope="col">Actions</th>
         </tr>
         @foreach (var item in Model.AllGames)
@@ -22,6 +23,7 @@
                 <td>@item.ReleaseDate.ToString("MMMM dd, yyyy")</td>
                 <td>@item.Generation.GenerationName</td>
                 <td>@(item.IsBreedingPossible ? "X" : "")</td>
+                <td>@(item.AreAlphasAvailable ? "X" : "")</td>
                 <td>
                     <a href="@(this.Url.Action("Game", "Edit", new { id = item.Id }))">Edit</a>
                     @("|")
