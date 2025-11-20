@@ -3,7 +3,7 @@
     "copyfiles": "^2.4.1",
     "npm": "^11.6.2",
     "npm-check-updates": "^19.1.2",
-    "rimraf": "^6.1.0",
+    "rimraf": "^6.1.2",
     "set-value": "^4.1.0",
     "uglifyjs-folder": "^3.3.0"
   },
