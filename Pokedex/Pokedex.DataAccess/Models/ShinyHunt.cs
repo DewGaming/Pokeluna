@@ -75,7 +75,7 @@ namespace Pokedex.DataAccess.Models
         [Display(Name = "Alpha Pokemon")]
         public bool IsAlpha { get; set; }
 
-        [Display(Name = "Sparkling Power Sandwich Level"), Range(0, 3)]
+        [Display(Name = "Sparkling Power Level"), Range(0, 3)]
         public int SparklingPowerLevel { get; set; }
 
         [DataType(DataType.Date)]

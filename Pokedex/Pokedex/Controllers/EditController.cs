@@ -140,6 +140,8 @@ namespace Pokedex.Controllers
                 ReleaseDate = game.ReleaseDate,
                 GenerationId = game.GenerationId,
                 IsBreedingPossible = game.IsBreedingPossible,
+                AreAlphasAvailable = game.AreAlphasAvailable,
+                IsSparklingPowerAvailable = game.IsSparklingPowerAvailable,
                 GameColor = game.GameColor,
                 AllGenerations = this.dataService.GetObjects<Generation>(),
             };
@@ -161,6 +163,9 @@ namespace Pokedex.Controllers
                     Name = oldGame.Name,
                     ReleaseDate = oldGame.ReleaseDate,
                     GenerationId = oldGame.GenerationId,
+                    IsBreedingPossible = oldGame.IsBreedingPossible,
+                    AreAlphasAvailable = oldGame.AreAlphasAvailable,
+                    IsSparklingPowerAvailable = oldGame.IsSparklingPowerAvailable,
                     GameColor = oldGame.GameColor,
                     AllGenerations = this.dataService.GetObjects<Generation>(),
                 };

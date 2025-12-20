@@ -1636,9 +1636,9 @@ namespace Pokedex.Controllers
         [Route("check-sparkling-power")]
         public bool CheckSparklingPower(int gameId, int huntingMethodId)
         {
-            if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest" && (gameId == 41 || gameId == 42) && huntingMethodId != 4 && huntingMethodId != 5 && huntingMethodId != 8 && huntingMethodId != 14)
+            if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest" && huntingMethodId != 4 && huntingMethodId != 5 && huntingMethodId != 8 && huntingMethodId != 14)
             {
-                return true;
+                return this.dataService.GetObjectByPropertyValue<Game>("Id", gameId).IsSparklingPowerAvailable;
             }
             else
             {

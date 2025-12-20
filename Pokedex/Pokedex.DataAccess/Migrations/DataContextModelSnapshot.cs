@@ -425,6 +425,9 @@ namespace Pokedex.DataAccess.Migrations
                     b.Property<bool>("IsBreedingPossible")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsSparklingPowerAvailable")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")

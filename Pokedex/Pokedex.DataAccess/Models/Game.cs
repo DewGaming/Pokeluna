@@ -19,6 +19,8 @@ namespace Pokedex.DataAccess.Models
         public bool WildMarksPossible { get; set; }
         [Required, Display(Name = "Are Alphas in Game")]
         public bool AreAlphasAvailable { get; set; }
+        [Required, Display(Name = "Is Sparkling Power Available")]
+        public bool IsSparklingPowerAvailable { get; set; }
         [Required, Display(Name = "Game Background Color")]
         public string GameColor { get; set; }
     }
