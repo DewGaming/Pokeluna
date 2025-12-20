@@ -1,121 +1,67 @@
-@model Pokedex.Models.ShinyDexViewModel;
-@using System.Net;
+@model Pokedex.Models.ShinyDexGames;
 @{
     ViewBag.Title = "Shiny Dex Progress";
-    int shinyCount = 0;
     string gameColors = string.Empty;
-    string gender = string.Empty;
 }
 
 @section styles
 {
     <link href="~/css/pageLookup.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/ajaxSpinner.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/shinyDexProgress.css" rel="stylesheet" asp-append-version="true" />
+    <style>
+        .page table th{
+        font-weight: bold;
+        color: black;
+        }
+
+        h2 {
+        margin: 20px;
+        }
+
+        .pokemonName:hover {
+        color: black !important;
+        }
+    </style>
 }
 
 @section scripts
 {
+    <script src="~/js/pageLookup.js" asp-append-version="true"></script>
     <script src="~/js/shinyDex.js" asp-append-version="true"></script>
 }
 
 <p class="shinyHuntButtons">
     <button class="hideAltFormsButton btn btn-primary@(Model.CurrentUser.ShowShinyAltForms ? "" : " hide")" onclick="hideAltForms()">Hide Alternate Forms</button>
-    @if (Model.AllPokemon.Count(x => x.IsAltForm) > 0)
-    {
-        <button class="showAltFormsButton btn btn-primary@(!@Model.CurrentUser.ShowShinyAltForms ? "" : " hide")" onclick="showAltForms()">Show Alternate Forms</button>
-    }
+    <button class="showAltFormsButton btn btn-primary@(!@Model.CurrentUser.ShowShinyAltForms ? "" : " hide")" onclick="showAltForms()">Show Alternate Forms</button>
     <button class="showCapturedButton btn btn-primary@(!Model.CurrentUser.HideCapturedShinyPokemon ? " hide" : "")" onclick="showCaptured()">Show Captured Pokemon</button>
-    @if (Model.AllPokemon.Count(x => x.IsCaptured) > 0)
-    {
-        <button class="hideCapturedButton btn btn-primary@(@Model.CurrentUser.HideCapturedShinyPokemon ? " hide" : "")" onclick="hideCaptured()">Hide Captured Pokemon</button>
-    }
+    <button class="hideCapturedButton btn btn-primary@(@Model.CurrentUser.HideCapturedShinyPokemon ? " hide" : "")" onclick="hideCaptured()">Hide Captured Pokemon</button>
     <button class="showGenderDifferenceButton btn btn-primary@(!Model.CurrentUser.HideShinyGenderDifferences ? " hide" : "")" onclick="showGenderDifferences()">Show Gender Differences</button>
     <button class="hideGenderDifferenceButton btn btn-primary@(@Model.CurrentUser.HideShinyGenderDifferences ? " hide" : "")" onclick="hideGenderDifferences()">Hide Gender Differences</button>
-    @if (!Model.IsShared)
-    {
-        <button class="sharePage btn btn-primary" onclick="giveSharableLink('@Model.CurrentUser.Username')">Share With Others</button>
-    }
 </p>
 
 <h5 class="pokemonCount shiniesFoundPercentage">Shiny Dex Completion Percentage (<span class="capturedCount"></span>/<span class="totalCount"></span>): <span class="capturedPercentage"></span>%</h5>
 
-<div class="generations">
-    <button id="Generation0" onclick="lookupGeneration(0)">All Generations</button>
-    @foreach (var id in Model.AllGames.OrderBy(x => x.ReleaseDate).ThenBy(x => x.Id).Select(x => x.GenerationId).Distinct().ToList())
+<div class="pageButtons shinyGame">
+    <button id="Game0" onclick="lookupShinyDex(0)">National Dex</button>
+    @foreach (var g in Model.FormattedGames)
     {
-        if (id == 7)
+        if (Model.AllGames.Where(x => x.ReleaseDate == g.ReleaseDate).Count() > 1 && g.Id != 4 && g.Id != 5)
         {
-            gameColors = string.Concat(@Model.AllGames.OrderBy(x => x.ReleaseDate).ThenBy(x => x.Id).Where(x => x.GenerationId == id).ToList()[1].GameColor, " 50%, ", @Model.AllGames.OrderBy(x => x.ReleaseDate).ThenBy(x => x.Id).Where(x => x.GenerationId == id).ToList()[2].GameColor, " 50%)");
+            gameColors = string.Concat(@Model.AllGames.OrderBy(x => x.ReleaseDate).ThenBy(x => x.Id).Where(x => x.ReleaseDate == g.ReleaseDate).ToList()[0].GameColor, " 50%, ", @Model.AllGames.OrderBy(x => x.ReleaseDate).ThenBy(x => x.Id).Where(x => x.ReleaseDate == g.ReleaseDate).ToList()[1].GameColor, " 50%)");
+            <button style="@(Model.AllGames.First(x => x.GenerationId == g.GenerationId).GameColor != string.Empty ? string.Concat("background: linear-gradient(135deg, ", gameColors) : string.Empty)" id="Game@(g.Id)" onclick="lookupShinyDex(@g.Id)">@g.Name</button>
         }
         else
-        {
-            gameColors = string.Concat(@Model.AllGames.OrderBy(x => x.ReleaseDate).ThenBy(x => x.Id).Where(x => x.GenerationId == id).ToList()[0].GameColor, " 50%, ", @Model.AllGames.OrderBy(x => x.ReleaseDate).ThenBy(x => x.Id).Where(x => x.GenerationId == id).ToList()[1].GameColor, " 50%)");
+        { 
+            <button style="@(string.Concat("background: ", g.GameColor))" id="Game@(g.Id)" onclick="lookupShinyDex(@g.Id)">@g.Name</button>
         }
-
-        <button style="@(Model.AllGames.First(x => x.GenerationId == id).GameColor != string.Empty ? string.Concat("background: linear-gradient(135deg, ", gameColors) : string.Empty)" id="Generation@(id)" onclick="lookupGeneration('@id')">Generation @id</button>
     }
 </div>
+<br>
+<div class="page shinyGame shinyDexList"></div>
 
-@foreach (var g in Model.AllGames.Select(x => x.GenerationId).Distinct().ToList())
-{
-    <div class="page generation@(g) pokemonList completedHunts">
-        <h5 class="generationHeaders"><b>Generation @(g)</b></h5>
-        <div class="grid-container">
-            @foreach (var p in Model.AllPokemon.Where(x => x.Pokemon.Game.GenerationId == g))
-            {
-                gender = string.Empty;
-                @if (p.IsMaleGenderDifference)
-                {
-                    shinyCount = @Model.AllShinyHunts.Where(x => x.PokemonId == p.Pokemon.Id && x.Gender == "Male").Count();
-                }
-                else if (p.IsFemaleGenderDifference)
-                {
-                    shinyCount = @Model.AllShinyHunts.Where(x => x.PokemonId == p.Pokemon.Id && x.Gender == "Female").Count();
-                }
-                else
-                {
-                    shinyCount = @Model.AllShinyHunts.Where(x => x.PokemonId == p.Pokemon.Id).Count();
-                }
-                <div class="shadowed @p.Pokemon.Name individualCaught@(shinyCount) totalCaught@(@Model.AllShinyHunts.Where(x => x.PokemonId == p.Pokemon.Id).Count())@(!p.IsCaptured ? " uncaptured" : (@Model.CurrentUser.HideCapturedShinyPokemon ? " captured hide" : " captured"))@(p.IsAltForm ? (@Model.CurrentUser.ShowShinyAltForms ? " altForm" : " altForm hide") : "")@(p.IsFemaleGenderDifference ? (@Model.CurrentUser.HideShinyGenderDifferences ? " femaleGenderDifference hide" : " femaleGenderDifference") : p.IsMaleGenderDifference ? " maleGenderDifference" : "")">
-                    <div class="pokemonDetails">
-                        <div class="pokemonImages">
-                            @if (p.IsFemaleGenderDifference || p.IsMaleGenderDifference)
-                            {
-                                if (p.IsMaleGenderDifference)
-                                {
-                                    gender = "Male";
-                                }
-                                else
-                                {
-                                    gender = "Female";
-                                }
-
-                                <div class="bonusImages@(Model.CurrentUser.HideShinyGenderDifferences ? " hide" : "")">
-                                    <img loading="lazy" class="gender pokemonListPicture" title="@gender" src="@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.GeneralImageUrl, @gender.ToLower(), ".png"))">
-                                </div>
-                            }
-                            <a href="@this.Url.Action("PokemonWithOnlyId", "Home", new { pokemonId = @p.Pokemon.Id, generationId = 0 })" target="_blank">
-                                @if (p.IsFemaleGenderDifference || p.IsMaleGenderDifference)
-                                {
-                                    <img loading="lazy" class="pokemonListPicture pokemonShinyHuntPokemon" title="Pokémon: @p.Pokemon.Name" alt="@p.Pokemon.Name Shiny Image" src="@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.GenderDifferenceShinyGridImageUrl, p.Pokemon.Id, "-", gender.ToLower()[0], ".png"))" onerror = "this.src = '@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.ShinyGridImageUrl, p.Pokemon.Id, ".png"))'; this.onerror = null;" />
-                                }
-                                else
-                                {
-                                    <img loading="lazy" class="pokemonListPicture pokemonShinyHuntPokemon" title="Pokémon: @p.Pokemon.Name" alt="@p.Pokemon.Name Shiny Image" src="@Url.Content(string.Concat(@Model.AppConfig.WebUrl, @Model.AppConfig.ShinyGridImageUrl, p.Pokemon.Id, ".png"))" />
-                                }
-                            </a>
-                        </div>
-                        <div class="description">
-                            <p>#@p.Pokemon.PokedexNumber.ToString().PadLeft(4, '0') @p.Pokemon.Name</p>
-                            <p class="captureTotal@(!p.IsCaptured ? " uncaptured" : "")"><b>Total Captured:</b> @shinyCount</p>
-                            @if (p.IsMaleGenderDifference)
-                            {
-                                <p class="captureCompleteTotal@(!p.IsCaptured ? " uncaptured" : "") hide"><b>Total Captured:</b> @Model.AllShinyHunts.Where(x => x.PokemonId == p.Pokemon.Id).Count()</p>
-                            }
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
+<div class="overlay">
+    <div class="cv-spinner">
+        <span class="spinner"></span>
     </div>
-}
+</div>

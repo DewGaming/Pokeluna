@@ -1,0 +1,61 @@
+@using Pokedex.DataAccess.Models;
+@model Pokedex.Models.EditGameShinyLockViewModel
+
+@section scripts
+{
+    <script src="~/js/editGameShinyLock.js" asp-append-version="true"></script>
+}
+
+@section styles
+{
+    <link href="~/css/ajaxSpinner.css" rel="stylesheet" asp-append-version="true" />
+    <style>
+        .container {
+            max-width: 85% !important;
+        }
+
+        .flexDiv {
+            flex-wrap: wrap;
+        }
+
+        .gameShinyLock {
+            flex: 0 0 33%;
+            flex-wrap: wrap;
+            max-width: auto;
+        }
+
+        .gameShinyLock li {
+            list-style: none;
+        }
+    </style>
+}
+
+<h2>Update @(Model.Game.Name)'s Shiny Locks</h2>
+<p>
+    <button onclick="updateGameShinyLocks(@Model.Game.Id)" class="btn btn-primary" role="button">Save</button>
+</p>
+
+<div class="flexDiv">
+    @foreach(var g in Model.PokemonList.Select(x => x.Game.Generation).Distinct().OrderBy(x => x.Id).ToList())
+    {
+        <div class="gen@(g.Id) gameShinyLock">
+            <p>Generation @g.Id</p>
+            <ul>
+                @foreach (var p in Model.PokemonList.Where(x => x.Game.GenerationId == g.Id).OrderBy(x => x.PokedexNumber))
+                {
+                    var gameAvail = @Model.GameShinyLocks.Find(x => x.PokemonId == p.Id && x.GameId == @Model.Game.Id && x.ShinyLocked);
+                    <li>
+                        <input id="gen@(g.Id)@(p.Name)" type="checkbox" value="@p.Id" @(gameAvail != null ? "checked=checked" : "") />
+                        <label for="gen@(g.Id)@(p.Name)" class="generatorOptionTitle"><span>@('#')@p.PokedexNumber.ToString().PadLeft(4, '0') @p.Name</span></label>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+<div class="overlay">
+    <div class="cv-spinner">
+        <span class="spinner"></span>
+    </div>
+</div>

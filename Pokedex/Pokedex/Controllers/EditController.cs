@@ -241,6 +241,31 @@ namespace Pokedex.Controllers
             return this.View(model);
         }
 
+        [Route("edit_game_shiny_locks/{id:int}")]
+        public IActionResult GameShinyLocks(int id)
+        {
+            Game game = this.dataService.GetObjectByPropertyValue<Game>("Id", id);
+            List<RegionalDex> regionalDexes = this.dataService.GetObjects<RegionalDex>(whereProperty: "GameId", wherePropertyValue: id);
+            List<RegionalDexEntry> regionalDexEntries = this.dataService.GetObjects<RegionalDexEntry>().Where(x => regionalDexes.Exists(y => y.Id == x.RegionalDexId)).ToList();
+            List<Pokemon> pokemonList = this.dataService.GetAllPokemon().Where(x => !x.IsAltForm || (!x.Form.OnlyDuringBattle && !x.Form.FusionForm)).ToList();
+            pokemonList = pokemonList.Where(x => regionalDexEntries.Exists(y => y.PokemonId == x.Id)).ToList();
+            pokemonList.Where(x => x.IsAltForm).ToList().ForEach(x => x.Name = x.NameWithForm);
+            if (id != 43)
+            {
+                pokemonList = pokemonList.Where(x => x.Game.ReleaseDate <= game.ReleaseDate).ToList();
+            }
+
+            EditGameShinyLockViewModel model = new EditGameShinyLockViewModel()
+            {
+                Game = game,
+                Games = this.dataService.GetObjects<Game>("ReleaseDate, Id"),
+                PokemonList = pokemonList,
+                GameShinyLocks = this.dataService.GetObjects<PokemonGameDetail>(includes: "Pokemon, Game"),
+            };
+
+            return this.View(model);
+        }
+
         [HttpGet]
         [Route("edit_pokemon/{id:int}")]
         public IActionResult Pokemon(int id)
@@ -447,6 +472,16 @@ namespace Pokedex.Controllers
             }
 
             this.dataService.UpdateObject(pokemon);
+
+            if (pokemon.IsShinyLocked)
+            {
+                List<PokemonGameDetail> gameDetails = this.dataService.GetObjects<PokemonGameDetail>(whereProperty: "PokemonId", wherePropertyValue: pokemon.Id);
+                gameDetails.ForEach(x => x.ShinyLocked = true);
+                foreach (var gd in gameDetails)
+                {
+                    this.dataService.UpdateObject(gd);
+                }
+            }
 
             return this.RedirectToAction("Pokemon", "Owner");
         }

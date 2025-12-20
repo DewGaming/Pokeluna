@@ -1009,8 +1009,9 @@ namespace Pokedex
         /// Gets the list of games grouped by release date.
         /// </summary>
         /// <param name="includeUnreleasdGames">Whether or not unreleased games should be included in list. Default is false.</param>
+        /// <param name="includeUnreleasdGames">Whether or not Pokemon GO should be included in list. Default is true.</param>
         /// <returns>The list of games grouped by release date.</returns>
-        public List<Game> GetGamesGroupedByReleaseDate(bool includeUnreleasdGames = false)
+        public List<Game> GetGamesGroupedByReleaseDate(bool includeUnreleasdGames = false, bool includePokemonGo = true)
         {
             List<Game> gamesList = new List<Game>();
             List<Game> selectableGames = new List<Game>();
@@ -1018,6 +1019,11 @@ namespace Pokedex
             if (!includeUnreleasdGames)
             {
                 gamesList = gamesList.Where(x => x.ReleaseDate <= DateTime.Now).ToList();
+            }
+
+            if (!includePokemonGo)
+            {
+                gamesList.Remove(gamesList.Find(x => x.Id == 43));
             }
 
             List<Game> uniqueGames = gamesList.OrderBy(x => x.ReleaseDate).ThenBy(x => x.Id).DistinctBy(y => y.ReleaseDate).ToList();
@@ -1036,6 +1042,8 @@ namespace Pokedex
                         Name = string.Join(" / ", gamesList.Where(x => x.ReleaseDate >= uniqueGames[i].ReleaseDate).Select(x => x.Name)),
                         GenerationId = uniqueGames[i].GenerationId,
                         IsBreedingPossible = uniqueGames[i].IsBreedingPossible,
+                        ReleaseDate = uniqueGames[i].ReleaseDate,
+                        GameColor = uniqueGames[i].GameColor,
                     });
                 }
                 else
@@ -1053,6 +1061,8 @@ namespace Pokedex
                             Name = string.Join(" / ", games.ConvertAll(x => x.Name)),
                             GenerationId = uniqueGames[i].GenerationId,
                             IsBreedingPossible = uniqueGames[i].IsBreedingPossible,
+                            ReleaseDate = uniqueGames[i].ReleaseDate,
+                            GameColor = uniqueGames[i].GameColor,
                         });
                     }
                 }

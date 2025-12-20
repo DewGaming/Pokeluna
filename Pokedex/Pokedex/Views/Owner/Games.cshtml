@@ -28,6 +28,8 @@
                     <a href="@(this.Url.Action("Game", "Edit", new { id = item.Id }))">Edit</a>
                     @("|")
                     <a href="@(this.Url.Action("PokeballGameAvailability", "Edit", new { id = item.Id }))">Edit Pokeballs</a>
+                    @("|")
+                    <a href="@(this.Url.Action("GameShinyLocks", "Edit", new { id = item.Id }))">Edit Shiny Locks</a>
                     @if (item.WildMarksPossible)
                     {
                         @("|")

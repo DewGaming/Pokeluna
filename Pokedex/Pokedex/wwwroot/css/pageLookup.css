@@ -73,6 +73,7 @@
 }
 
 .generations button,
+.shinyGame button,
 .gameButton {
   text-shadow: 1.25px 1.25px black;
 }

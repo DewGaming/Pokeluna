@@ -64,7 +64,7 @@ $('.currentEncounters.pointer').on('click', function () {
     adjustEncountersManually($(this).prop('id'));
 });
 
-$('.pokemonNotes[title]').on('click', function() {
+$('.pokemonNotes[title]').on('click', function () {
     alert($(this).attr('title'))
 })
 

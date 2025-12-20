@@ -936,6 +936,9 @@ namespace Pokedex.DataAccess.Migrations
                     b.Property<int>("PokemonId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("ShinyLocked")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GameId");

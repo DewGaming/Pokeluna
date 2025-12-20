@@ -273,9 +273,9 @@ function showGenderDifferences() {
     updatePercentage();
 }
 
-function lookupGeneration(generation) {
+function lookupShinyGeneration(generation) {
     generationId = generation;
-    $('.active').each(function () {
+    $('.shinyDexList .active').each(function () {
         $(this).removeClass('active');
     });
 

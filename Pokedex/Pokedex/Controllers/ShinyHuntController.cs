@@ -40,30 +40,11 @@ namespace Pokedex.Controllers
         [Route("shiny_dex_progress")]
         public IActionResult ShinyDexProgress()
         {
-            this.dataService.AddPageView("Shiny Dex Progression Page", this.User.IsInRole("Owner"));
-            int userId = this.dataService.GetCurrentUser(this.User).Id;
-            List<ShinyHunt> shinyHunts = this.dataService.GetObjects<ShinyHunt>("Game.GenerationId, Pokemon.PokedexNumber, PokemonId, Id", "User, Pokemon, Pokemon.Game, Game, HuntingMethod, Mark, Pokeball", "UserId", userId).Where(x => x.IsCaptured && !x.ExcludeFromShinyDex).ToList();
-            List<Pokemon> pokemonCaptured = shinyHunts.ConvertAll(x => x.Pokemon).DistinctBy(x => x.Id).ToList();
-            List<Pokemon> pokemonList = this.dataService.GetNonBattlePokemonWithFormNames().Where(x => !x.IsShinyLocked).ToList();
-            pokemonList = pokemonList.Where(x => x.Form == null || x.Form.Name != "Primal").ToList();
-
-            List<PokemonShinyHuntDetails> pokemonShinyHuntList = pokemonList.Where(x => x.HasGenderDifference == false).ToList().ConvertAll(x => new PokemonShinyHuntDetails() { Pokemon = x, IsCaptured = false, IsAltForm = x.IsAltForm, IsMaleGenderDifference = false, IsFemaleGenderDifference = false });
-            pokemonShinyHuntList.Where(x => pokemonCaptured.Any(y => y.Id == x.Pokemon.Id)).ToList().ForEach(x => x.IsCaptured = true);
-            List<PokemonShinyHuntDetails> maleGenderDifferencesList = pokemonList.Where(x => x.HasGenderDifference == true).ToList().ConvertAll(x => new PokemonShinyHuntDetails() { Pokemon = x, IsCaptured = false, IsAltForm = x.IsAltForm, IsMaleGenderDifference = true, IsFemaleGenderDifference = false });
-            maleGenderDifferencesList.Where(x => shinyHunts.Any(y => y.PokemonId == x.Pokemon.Id && y.Gender == "Male")).ToList().ForEach(x => x.IsCaptured = true);
-            List<PokemonShinyHuntDetails> femaleGenderDifferencesList = pokemonList.Where(x => x.HasGenderDifference == true).ToList().ConvertAll(x => new PokemonShinyHuntDetails() { Pokemon = x, IsCaptured = false, IsAltForm = x.IsAltForm, IsMaleGenderDifference = false, IsFemaleGenderDifference = true });
-            femaleGenderDifferencesList.Where(x => shinyHunts.Any(y => y.PokemonId == x.Pokemon.Id && y.Gender == "Female")).ToList().ForEach(x => x.IsCaptured = true);
-            pokemonShinyHuntList.AddRange(maleGenderDifferencesList);
-            pokemonShinyHuntList.AddRange(femaleGenderDifferencesList);
-
-            ShinyDexViewModel model = new ShinyDexViewModel()
+            ShinyDexGames model = new ShinyDexGames()
             {
-                AllPokemon = pokemonShinyHuntList.OrderBy(x => x.Pokemon.PokedexNumber).ThenBy(x => x.Pokemon.Id).ToList(),
-                AllShinyHunts = shinyHunts,
-                AllGames = this.dataService.GetObjects<Game>(),
+                AllGames = this.dataService.GetObjects<Game>().Where(x => x.Id != 43).ToList(),
+                FormattedGames = this.dataService.GetGamesGroupedByReleaseDate(includePokemonGo: false),
                 CurrentUser = this.dataService.GetCurrentUser(this.User),
-                IsShared = false,
-                AppConfig = this.appConfig,
             };
 
             return this.View(model);

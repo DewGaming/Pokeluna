@@ -348,6 +348,23 @@ function lookupPopularity() {
   });
 }
 
+function lookupShinyDex(gameId) {
+  $(".overlay").fadeIn(300);
+
+  $('.shinyGame button').each(function () {
+    $(this).removeClass('active');
+  });
+
+  $('.shinyGame.shinyDexList').removeClass('active');
+  $('.shinyGame.shinyDexList').empty();
+  $('button#Game' + gameId).addClass('active');
+
+  $('.shinyGame.shinyDexList').load('/get-shiny-progress/' + gameId, function () {
+    $('.shinyGame.shinyDexList').addClass('active');
+    $(".overlay").fadeOut(300);
+  });
+}
+
 function orderHunts(orderMethod) {
   sortMethod = orderMethod;
   if (orderMethod == "Pokedex") {

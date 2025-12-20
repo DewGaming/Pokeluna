@@ -71,6 +71,61 @@ namespace Pokedex.Controllers
         }
 
         /// <summary>
+        /// Gathers the shiny hunts requested for the shiny dex progress page.
+        /// </summary>
+        /// <param name=gameId">The id of the game requested by the user. Defaults to 0.</param>
+        /// <returns>The fill shiny dex progress shared view.</returns>
+        [Route("get-shiny-progress/{gameId}")]
+        public IActionResult GetShinyProgress(int gameId = 0)
+        {
+            if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                this.dataService.AddPageView("Shiny Dex Progression Page", this.User.IsInRole("Owner"));
+                int userId = this.dataService.GetCurrentUser(this.User).Id;
+                List<ShinyHunt> shinyHunts = this.dataService.GetObjects<ShinyHunt>("Game.GenerationId, Pokemon.PokedexNumber, PokemonId, Id", "User, Pokemon, Pokemon.Game, Game, HuntingMethod, Mark, Pokeball", "UserId", userId).Where(x => x.IsCaptured && !x.ExcludeFromShinyDex).ToList();
+                List<Pokemon> pokemonList = this.dataService.GetNonBattlePokemonWithFormNames().Where(x => !x.IsShinyLocked).ToList();
+                List<Game> gamesList = this.dataService.GetObjects<Game>();
+                if (gameId != 0)
+                {
+                    Game game = this.dataService.GetObjectByPropertyValue<Game>("Id", gameId);
+                    shinyHunts = shinyHunts.Where(x => x.GameId == game.Id).ToList();
+                    List<RegionalDexEntry> regionalDexEntries = this.dataService.GetObjects<RegionalDexEntry>(includes: "RegionalDex", whereProperty: "RegionalDex.GameId", wherePropertyValue: gameId);
+                    List<PokemonGameDetail> shinyLocks = this.dataService.GetObjects<PokemonGameDetail>(whereProperty: "GameId", wherePropertyValue: gameId).Where(x => x.ShinyLocked).ToList();
+                    pokemonList = pokemonList.Where(x => regionalDexEntries.Exists(y => y.PokemonId == x.Id)).ToList();
+                    pokemonList = pokemonList.Where(x => !shinyLocks.Exists(y => y.PokemonId == x.Id)).ToList();
+                    gamesList = gamesList.Where(x => pokemonList.Exists(y => y.Game.ReleaseDate == x.ReleaseDate)).ToList();
+                }
+
+                List<Pokemon> pokemonCaptured = shinyHunts.ConvertAll(x => x.Pokemon).DistinctBy(x => x.Id).ToList();
+                pokemonList = pokemonList.Where(x => x.Form == null || x.Form.Name != "Primal").ToList();
+                List<PokemonShinyHuntDetails> pokemonShinyHuntList = pokemonList.Where(x => x.HasGenderDifference == false).ToList().ConvertAll(x => new PokemonShinyHuntDetails() { Pokemon = x, IsCaptured = false, IsAltForm = x.IsAltForm, IsMaleGenderDifference = false, IsFemaleGenderDifference = false });
+                pokemonShinyHuntList.Where(x => pokemonCaptured.Any(y => y.Id == x.Pokemon.Id)).ToList().ForEach(x => x.IsCaptured = true);
+                List<PokemonShinyHuntDetails> maleGenderDifferencesList = pokemonList.Where(x => x.HasGenderDifference == true).ToList().ConvertAll(x => new PokemonShinyHuntDetails() { Pokemon = x, IsCaptured = false, IsAltForm = x.IsAltForm, IsMaleGenderDifference = true, IsFemaleGenderDifference = false });
+                maleGenderDifferencesList.Where(x => shinyHunts.Any(y => y.PokemonId == x.Pokemon.Id && y.Gender == "Male")).ToList().ForEach(x => x.IsCaptured = true);
+                List<PokemonShinyHuntDetails> femaleGenderDifferencesList = pokemonList.Where(x => x.HasGenderDifference == true).ToList().ConvertAll(x => new PokemonShinyHuntDetails() { Pokemon = x, IsCaptured = false, IsAltForm = x.IsAltForm, IsMaleGenderDifference = false, IsFemaleGenderDifference = true });
+                femaleGenderDifferencesList.Where(x => shinyHunts.Any(y => y.PokemonId == x.Pokemon.Id && y.Gender == "Female")).ToList().ForEach(x => x.IsCaptured = true);
+                pokemonShinyHuntList.AddRange(maleGenderDifferencesList);
+                pokemonShinyHuntList.AddRange(femaleGenderDifferencesList);
+
+                ShinyDexViewModel model = new ShinyDexViewModel()
+                {
+                    AllPokemon = pokemonShinyHuntList.OrderBy(x => x.Pokemon.PokedexNumber).ThenBy(x => x.Pokemon.Id).ToList(),
+                    AllShinyHunts = shinyHunts,
+                    AllGames = gamesList,
+                    CurrentUser = this.dataService.GetCurrentUser(this.User),
+                    IsShared = false,
+                    AppConfig = this.appConfig,
+                };
+
+                return this.PartialView("_FillShinyDexProgress", model);
+            }
+            else
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+        }
+
+        /// <summary>
         /// Prepares the required information for the admin to view the admin pokemon page.
         /// </summary>
         /// <param name="generationId">The generation requested by the admin.</param>
@@ -936,6 +991,8 @@ namespace Pokedex.Controllers
             {
                 RegionalDex regionalDex = this.dataService.GetObjectByPropertyValue<RegionalDex>("Id", regionalDexId);
                 List<Pokemon> allPokemon = this.dataService.GetAllPokemon().Where(x => pokemonList.Any(y => y == x.Name)).ToList();
+                List<Pokemon> availablePokemon = this.dataService.GetObjects<PokemonGameDetail>(includes: "Pokemon", whereProperty: "GameId", wherePropertyValue: regionalDex.GameId).ConvertAll(x => x.Pokemon);
+                allPokemon = allPokemon.Where(x => availablePokemon.Exists(y => y.Id == x.Id)).ToList();
                 List<int> pokemonIds = allPokemon.DistinctBy(x => x.Name).OrderBy(x => pokemonList.IndexOf(x.Name)).Select(x => x.Id).ToList();
                 List<RegionalDexEntry> existingDexEntries = this.dataService.GetObjects<RegionalDexEntry>(includes: "Pokemon, RegionalDex", whereProperty: "RegionalDexId", wherePropertyValue: regionalDexId);
                 List<RegionalDexEntry> newDexEntries = new List<RegionalDexEntry>();
@@ -1043,6 +1100,7 @@ namespace Pokedex.Controllers
                 }
 
                 List<Evolution> evolutions = this.dataService.GetObjects<Evolution>().Where(x => x.GenerationId <= generationId).ToList();
+                List<int> shinyLockedPokemonIds = this.dataService.GetObjects<Pokemon>(whereProperty: "IsShinyLocked", wherePropertyValue: true).Select(x => x.Id).ToList();
 
                 pokemonIds.AddRange(pokemonList.Except(evolutions.Select(x => x.EvolutionPokemonId).ToList()));
 
@@ -1074,6 +1132,7 @@ namespace Pokedex.Controllers
                             {
                                 GameId = game,
                                 PokemonId = p,
+                                ShinyLocked = shinyLockedPokemonIds.Exists(x => x == p),
                             });
                         }
                         else
@@ -1094,6 +1153,64 @@ namespace Pokedex.Controllers
                 }
 
                 return this.Json(this.Url.Action("GameAvailability", "Home")).Value.ToString();
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Updates the shiny locks of the pokemon in a specified game.
+        /// </summary>
+        /// <param name="gameId">The game's id.</param>
+        /// <param name="pokemonList">The pokemon that are available in the given game.</param>
+        /// <returns>The admin pokemon page.</returns>
+        [Route("update-game-shiny-lock")]
+        public string UpdateGameShinyLocks(int gameId, List<int> pokemonList)
+        {
+            if (this.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                PokemonGameDetail gameDetail = new PokemonGameDetail();
+                List<PokemonGameDetail> gameDetails = new List<PokemonGameDetail>();
+                List<Game> games = this.dataService.GetObjects<Game>("ReleaseDate, Id");
+                DateTime releaseDate = games.Find(x => x.Id == gameId).ReleaseDate;
+                games = games.Where(x => x.ReleaseDate == releaseDate).ToList();
+                int generationId = games.First().GenerationId;
+
+                if (gameId == 4 || gameId == 5)
+                {
+                    games = games.Where(x => x.Id == gameId).ToList();
+                }
+                else if (gameId == 16 || gameId == 28)
+                {
+                    generationId = 1;
+                }
+                else if (gameId == 35 || gameId == 36)
+                {
+                    generationId = 4;
+                }
+
+                foreach (var g in games)
+                {
+                    gameDetails = this.dataService.GetObjects<PokemonGameDetail>(whereProperty: "GameId", wherePropertyValue: g.Id);
+
+                    foreach (var gd in gameDetails)
+                    {
+                        if (pokemonList.Exists(x => x == gd.PokemonId) && !gd.ShinyLocked)
+                        {
+                            gameDetail = this.dataService.GetObjectByPropertyValue<PokemonGameDetail>("Id", gd.Id);
+                            gameDetail.ShinyLocked = true;
+                            this.dataService.UpdateObject(gameDetail);
+                        }
+                        else if (!pokemonList.Exists(x => x == gd.PokemonId) && gd.ShinyLocked)
+                        {
+                            gameDetail = this.dataService.GetObjectByPropertyValue<PokemonGameDetail>("Id", gd.Id);
+                            gameDetail.ShinyLocked = false;
+                            this.dataService.UpdateObject(gameDetail);
+                        }
+                    }
+                }
+
+                return this.Json(this.Url.Action("Games", "Owner")).Value.ToString();
             }
 
             return null;

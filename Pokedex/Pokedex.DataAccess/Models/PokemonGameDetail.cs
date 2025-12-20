@@ -11,5 +11,6 @@ namespace Pokedex.DataAccess.Models
         [Required]
         public int PokemonId { get; set; }
         public Pokemon Pokemon { get; set; }
+        public bool ShinyLocked { get; set; }
     }
 }
