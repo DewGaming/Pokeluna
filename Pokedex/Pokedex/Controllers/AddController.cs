@@ -320,6 +320,47 @@ namespace Pokedex.Controllers
         }
 
         /// <summary>
+        /// Adds a game.
+        /// </summary>
+        /// <returns>The view to add the game.</returns>
+        [HttpGet]
+        [Route("add_game")]
+        public IActionResult Game()
+        {
+            GameViewModel model = new GameViewModel()
+            {
+                AllGenerations = this.dataService.GetObjects<Generation>(),
+            };
+
+            return this.View(model);
+        }
+
+        /// <summary>
+        /// Adds a game.
+        /// </summary>
+        /// <param name="game">The game being added.</param>
+        /// <returns>The view for the game admin page.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("add_game")]
+        public IActionResult Game(Game game)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                GameViewModel model = new GameViewModel()
+                {
+                    AllGenerations = this.dataService.GetObjects<Generation>(),
+                };
+
+                return this.View(model);
+            }
+
+            this.dataService.AddObject(game);
+
+            return this.RedirectToAction("Games", "Owner");
+        }
+
+        /// <summary>
         /// Adds a special grouping.
         /// </summary>
         /// <returns>The view to add the special grouping.</returns>
